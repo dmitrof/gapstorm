@@ -1,0 +1,40 @@
+<div id="-1" data-role="page" class="card" show="false">
+    <div data-role="header">Kanji card!</div>
+    <div data-role="main" class="ui-content">
+        <div class="kanjitranslation"></div>
+        <div class="kanjiromaji"></div>
+        <br>
+        <a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
+        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>
+    </div>
+</div>
+<script type="text/javascript">
+
+    // prev();
+
+
+    var fill = function(i, card) {
+        //alert("fill the card");
+        $("#-1").attr("id", i + "back");
+        //alert("id changed");
+        $("#" + i +"back .kanjitranslation").html(card.backside.kanjitrans);
+
+        $("#" + i +"back .kanjitranslation").click(function() {
+            alert("you clicked " + i);
+        });
+
+        $("#" + i + "back .kanjiromaji").html(card.backside.romaji);
+
+
+        $("#" + i + "back #nextcard").click(function() {
+
+            DataPresenter.next();
+        });
+
+        $("#" + i + "back #prevcard").click(function() {
+            DataPresenter.prev();
+        });
+
+
+    };
+</script>
