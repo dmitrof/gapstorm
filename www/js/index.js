@@ -13,7 +13,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.addEventListener('dbready', DataPresenter.presentData);
+        //document.addEventListener('dbready', DataPresenter.presentData);
     },
     // deviceready Event Handler
     //
@@ -24,27 +24,13 @@ var app = {
         CBManager.setup();
 
 
-        //DownloadManager.fetchFromServer();
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////////////////////COUCHBASE///////////////////////////////////////////////////////////////////////////
-
-
 
         $("#-1" + " #nextcard").click(function() {
-
+            DataPresenter.presentData();
             DataPresenter.next();
         });
         $("#-1" + " #prevcard").click(function() {
+            DataPresenter.presentData();
             DataPresenter.prev();
         });
 

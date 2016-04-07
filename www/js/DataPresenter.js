@@ -31,8 +31,8 @@
                 });
             }
 
-        })
-        window.config.site.views(["get_cards"], function(err, view) {
+        });
+        window.config.site.views("get_cards", function(err, view) {
             if (err) {
                 console.log("err ",err);
             }
@@ -46,8 +46,8 @@
                 });
             }
 
-        })
-    }
+        });
+    };
 
     //function that creates new div in main div
     this.writeDiv = function(id, card) {
@@ -59,7 +59,7 @@
         //ajax page load and append
         for (var t = 0; t < pages.length; t++) {
             //alert(pages[t] + " " + t);
-            //console.log(pages[t]);
+            console.log(pages[t]);
             $.get("html/" + pages[t], function(textdata) {
                 $("body").prepend(textdata);
                 fill(id, card);
