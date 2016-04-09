@@ -32,7 +32,7 @@
             }
 
         });
-        window.config.site.views("get_cards", function(err, view) {
+        window.config.site.views("get_kanji", function(err, view) {
             if (err) {
                 console.log("err ",err);
             }

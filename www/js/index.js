@@ -21,7 +21,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 
-        CBManager.setup();
+        CBManager.createDB();
 
 
 

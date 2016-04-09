@@ -6,12 +6,63 @@
     var coax = require("coax");
     var appDbName = "gapstorm";
     var TAG = "CBManager";
+    this.user = "ttmitry@gmail.com";
     //module for working with localstorage
-    exports.setup = function() {
+    exports.createDB = function() {
 
         window.cblite.getURL(function(err,url) {
             var db = coax([url, appDbName]);
-            setupDb(db, function(err, info){
+            try {
+                db.get("kan1", function(err, ok) {
+                    if (err) {
+                        console.log("DB CREATION CHECK, ERR", err);
+                    }
+                    if (ok) {
+
+                        console.log("DB CREATION CHECK, OK", ok);
+                    }
+                    window.config = {
+                        site : {
+                            syncUrl : "http://ttmitry:password@192.168.0.54:4984/gapstorm/",
+                            db : db,
+                            s : coax(url),
+                            //info : info,
+                            views : db(["_design/gapstorm", "_view"]),
+                            server : url
+
+                        }
+                    };
+                    triggerSync();
+                });
+            }
+            catch (err) {
+                console.log(TAG, "DB NOT CREATED YET!");
+                console.log("ERROR", err);
+                setupDb(db, function(err, info){
+                    console.log("setupDb: " + order +" " + info.doc_count);
+                    setupViews(db, function(err, views) {
+                        console.log("setting up configs");
+                        window.config = {
+                            site : {
+                                syncUrl : "http://192.168.0.54:4984/gapstorm/",
+                                db : db,
+                                s : coax(url),
+                                info : info,
+                                views : views,
+                                server : url
+
+                            }
+                        };
+                        triggerSync();
+                    });
+
+                });
+            }
+            finally {
+
+            }
+
+            /*setupDb(db, function(err, info){
                 console.log("setupDb: " + order +" " + info.doc_count);
                 setupViews(db, function(err, views) {
                     console.log("setting up configs");
@@ -31,7 +82,7 @@
 
                 });
 
-            });
+            });*/
 
         });
         return 1;
@@ -97,8 +148,7 @@
 
                     function() {
                         $.when(cb(false, db([design, "_view"]))).done(function() {
-                            //initPost();
-                                //DataPresenter.presentData();
+
 
                             });
 
