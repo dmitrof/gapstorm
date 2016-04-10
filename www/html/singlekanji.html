@@ -12,28 +12,28 @@
 </div>
 <script type="text/javascript">
 
-    var fill = function(i, cardside, cardinfo) {
+    var fill = function(i, card, cardinfo) {
         //console.log(i, card);
-        $("#-1").attr("id", i + "s0");
+        $("#-1").attr("id", i + "front");
         //alert("id changed");
-        $("#" + i +"s0 .bigkanji").html(cardside.bigkanji);
+        $("#" + i +"front .bigkanji").html(card.bigkanji);
         //console.log(i, "check " + card.bigkanji);
-        $("#" + i +"s0 .bigkanji").click(function() {
+        $("#" + i +"front .bigkanji").click(function() {
             alert("you clicked " + i);
         });
-        $("#" + i + "s0 .kana").html(cardside.kana);
+        $("#" + i + "front .kana").html(card.kana);
         //console.log(i, "check" + card.kana);
 
-        $("#" + i + "s0 .words").html(cardside.words);
+        $("#" + i + "front .words").html(card.words);
        // console.log(i, "check" + card.words);
-        $("#" + i + "s0 .level").html(cardinfo.lvl);
+        $("#" + i + "front .level").html(card.lvl);
        // console.log(i, "check" + card.lvl);
-        $("#" + i + "s0 #nextcard").click(function() {
+        $("#" + i + "front #nextcard").click(function() {
 
             DataPresenter.next();
         });
         //console.log(i, "check");
-        $("#" + i + "s0 #prevcard").click(function() {
+        $("#" + i + "front #prevcard").click(function() {
             DataPresenter.prev();
         });
 

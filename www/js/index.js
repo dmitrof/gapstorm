@@ -45,10 +45,10 @@ var app = {
 
         $(document).swipe( {
             swipeUp:function(event, direction, distance, duration) {
-                DataPresenter.toggleSide();
+                DataPresenter.slideUp();
             },
             swipeDown:function(event, direction, distance, duration) {
-                DataPresenter.toggleSide();
+                DataPresenter.slideDown();
             },
             click:function(event, target) {
             },

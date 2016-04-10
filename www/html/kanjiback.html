@@ -13,25 +13,25 @@
     // prev();
 
 
-    var fill = function(i, card) {
+    var fill = function(i, cardside, cardinfo) {
         //alert("fill the card");
-        $("#-1").attr("id", i + "back");
+        $("#-1").attr("id", i + "s1");
         //alert("id changed");
-        $("#" + i +"back .kanjitranslation").html(card.backside.kanjitrans);
+        $("#" + i +"s1 .kanjitranslation").html(cardside.kanjitrans);
 
-        $("#" + i +"back .kanjitranslation").click(function() {
+        $("#" + i +"s1 .kanjitranslation").click(function() {
             alert("you clicked " + i);
         });
 
-        $("#" + i + "back .kanjiromaji").html(card.backside.romaji);
+        $("#" + i + "s1 .kanjiromaji").html(cardside.romaji);
 
 
-        $("#" + i + "back #nextcard").click(function() {
+        $("#" + i + "s1 #nextcard").click(function() {
 
             DataPresenter.next();
         });
 
-        $("#" + i + "back #prevcard").click(function() {
+        $("#" + i + "s1 #prevcard").click(function() {
             DataPresenter.prev();
         });
 

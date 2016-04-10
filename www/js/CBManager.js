@@ -12,8 +12,17 @@
 
         window.cblite.getURL(function(err,url) {
             var db = coax([url, appDbName]);
+            /*db.del(function(err, ok) {
+                if (err) {
+                    console.log(TAG, err);
+                }
+                if (ok) {
+                    console.log(TAG, ok);
+                }
+
+            });*/
             try {
-                db.get("kan1", function(err, ok) {
+                db.get("kan6", function(err, ok) {
                     if (err) {
                         console.log("DB CREATION CHECK, ERR", err);
                     }
@@ -21,6 +30,8 @@
 
                         console.log("DB CREATION CHECK, OK", ok);
                     }
+
+
                     window.config = {
                         site : {
                             syncUrl : "http://ttmitry:password@192.168.0.54:4984/gapstorm/",
@@ -34,6 +45,7 @@
                     };
                     triggerSync();
                 });
+
             }
             catch (err) {
                 console.log(TAG, "DB NOT CREATED YET!");
@@ -44,7 +56,7 @@
                         console.log("setting up configs");
                         window.config = {
                             site : {
-                                syncUrl : "http://192.168.0.54:4984/gapstorm/",
+                                syncUrl : "http://ttmitry:password@192.168.0.54:4984/gapstorm/",
                                 db : db,
                                 s : coax(url),
                                 info : info,
@@ -62,27 +74,7 @@
 
             }
 
-            /*setupDb(db, function(err, info){
-                console.log("setupDb: " + order +" " + info.doc_count);
-                setupViews(db, function(err, views) {
-                    console.log("setting up configs");
-                    window.config = {
-                        site : {
-                            syncUrl : "http://192.168.0.54:4984/gapstorm/",
-                            db : db,
-                            s : coax(url),
-                            info : info,
-                            views : views,
-                            server : url
 
-                        }
-                    };
-                    triggerSync();
-
-
-                });
-
-            });*/
 
         });
         return 1;
@@ -123,9 +115,9 @@
                     },
                     by_level: {
                         map: function (doc, meta) {
-                            if (doc.item_type && doc.item_type == "kanjicard") {
+                            //if (doc.item_type && doc.item_type == "kanjicard") {
                                 emit(doc.lvl, 1);
-                            }
+                            //}
 
                         }.toString(),
                         reduce: function (keys, values, rereduce) {
@@ -174,40 +166,47 @@
                 console.log(ok);
                 var view_doc = ok;
                 view_doc.views = {
+                    views : {
+                        get_kanji: {
+                            map: function (doc, meta) {
+                                //if (doc.item_type && doc.item_type === "kanjicard") {
+                                emit(doc, null);
+                                // }
 
-                    by_level : {
-                        map : function(doc, meta) {
-                            if (doc.item_type && doc.item_type === "kanjicard") {
-                                emit(doc.lvl, 1);
-                            }
+                            }.toString()
+                        },
+                        get_cards: {
+                            map: function (doc, meta) {
+                                //if (doc.item_type && doc.item_type === "kanjicard") {
+                                emit(doc, null);
+                                // }
 
-                        }.toString(),
-                        reduce : function (keys, values, rereduce) {
-                            if(!rereduce) {
-                                return values.length;
-                            } else {
-                                var sum = 0;
-                                for (i in values) {
-                                    sum += values[i];
+                            }.toString()
+                        },
+                        by_level: {
+                            map: function (doc, meta) {
+                                //if (doc.item_type && doc.item_type == "kanjicard") {
+                                emit(doc.cardinfo.lvl, 1);
+                                //}
+
+                            }.toString(),
+                            reduce: function (keys, values, rereduce) {
+                                if (!rereduce) {
+                                    return values.length;
+                                } else {
+                                    var sum = 0;
+                                    for (i in values) {
+                                        sum += values[i];
+                                    }
+                                    return sum;
                                 }
-                                return sum;
-                            }
-                        }.toString()
+                            }.toString()
 
 
+                        }
 
-                    },
-                    get_cards : {
-                        map : function(doc, meta) {
-                            if (doc.item_type && doc.item_type === "kanjicard") {
-                                emit(doc, 1);
-                            }
-
-                        }.toString()
                     }
-
-
-                }
+                };
 
 
                 db.put(design, view_doc,
@@ -219,7 +218,7 @@
                         else {
                             console.log(success);
                             $.when(cb(false, db([design, "_view"]))).done(function() {
-                                initPost();
+
                                 //DataPresenter.presentData();
 
                             });
