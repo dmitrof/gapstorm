@@ -3,9 +3,10 @@
     <div data-role="main" class="ui-content">
         <div class="kanjitranslation"></div>
         <div class="kanjiromaji"></div>
+        <div class="sideinfo"></div>
         <br>
-        <a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
-        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>
+        <!--<a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
+        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>-->
     </div>
 </div>
 <script type="text/javascript">
@@ -15,25 +16,27 @@
 
     var fill = function(i, cardside, cardinfo) {
         //alert("fill the card");
-        $("#-1").attr("id", i + "s1");
+        $("#-1").attr("id", i + "s" + cardside.cardside);
         //alert("id changed");
-        $("#" + i +"s1 .kanjitranslation").html(cardside.kanjitrans);
+        $("#" + i + "s" + cardside.cardside + " .kanjitranslation").html(cardside.kanjitrans);
 
-        $("#" + i +"s1 .kanjitranslation").click(function() {
+        $("#" + i + "s" + cardside.cardside + " .kanjitranslation").click(function() {
             alert("you clicked " + i);
         });
 
-        $("#" + i + "s1 .kanjiromaji").html(cardside.romaji);
+        $("#" + i + "s" + cardside.cardside + " .kanjiromaji").html(cardside.romaji);
+
+        $("#" + i + "s" + cardside.cardside + " .sideinfo").html((cardside.cardside + 1) + "/" + cardinfo.sides);
 
 
-        $("#" + i + "s1 #nextcard").click(function() {
+        /*$("#" + i + "s" + cardside.cardside + " #nextcard").click(function() {
 
             DataPresenter.next();
         });
 
-        $("#" + i + "s1 #prevcard").click(function() {
+        $("#" + i + "s" + cardside.cardside + " #prevcard").click(function() {
             DataPresenter.prev();
-        });
+        });*/
 
 
     };

@@ -2,40 +2,33 @@
     <div data-role="header">Kanji card!</div>
     <div data-role="main" class="ui-content">
         <div class="bigkanji"></div>
-        <div class="kana"></div>
-        <div class="words">example</div>
         <div class="level"></div>
+        <div class="sideinfo"></div>
         <br>
-        <a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
-        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>
+       <!-- <a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
+        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>-->
     </div>
 </div>
 <script type="text/javascript">
 
-    var fill = function(i, card, cardinfo) {
+    var fill = function(i, cardside, cardinfo) {
         //console.log(i, card);
-        $("#-1").attr("id", i + "front");
+        $("#-1").attr("id", i + "s" + cardside.cardside);
         //alert("id changed");
-        $("#" + i +"front .bigkanji").html(card.bigkanji);
+        $("#" + i + "s" + cardside.cardside + " .bigkanji").html(cardside.kanji);
+        $("#" + i + "s" + cardside.cardside + " .bigkanji").html(cardside.kanji);
         //console.log(i, "check " + card.bigkanji);
-        $("#" + i +"front .bigkanji").click(function() {
-            alert("you clicked " + i);
-        });
-        $("#" + i + "front .kana").html(card.kana);
-        //console.log(i, "check" + card.kana);
-
-        $("#" + i + "front .words").html(card.words);
-       // console.log(i, "check" + card.words);
-        $("#" + i + "front .level").html(card.lvl);
+        $("#" + i + "s" + cardside.cardside + " .level").html(cardinfo.lvl);
+        $("#" + i + "s" + cardside.cardside + " .sideinfo").html((cardside.cardside + 1) + "/" + cardinfo.sides);
        // console.log(i, "check" + card.lvl);
-        $("#" + i + "front #nextcard").click(function() {
+        /*$("#" + i + cardside.cardside + " #nextcard").click(function() {
 
             DataPresenter.next();
         });
         //console.log(i, "check");
-        $("#" + i + "front #prevcard").click(function() {
+        $("#" + i + cardside.cardside + " #prevcard").click(function() {
             DataPresenter.prev();
-        });
+        });*/
 
 
     };

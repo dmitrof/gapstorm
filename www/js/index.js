@@ -27,11 +27,11 @@ var app = {
 
         $("#-1" + " #nextcard").click(function() {
             DataPresenter.presentData();
-            DataPresenter.next();
+
         });
         $("#-1" + " #prevcard").click(function() {
             DataPresenter.presentData();
-            DataPresenter.prev();
+
         });
 
         $(document).on("swiperight", function() {

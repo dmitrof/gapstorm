@@ -21,8 +21,9 @@
                 }
 
             });*/
-            try {
-                db.get("kan6", function(err, ok) {
+
+            db.get("kan6", function(err, ok) {
+                //db.get(["kan6", "atta.txt", {"rev" : "8-a1d83409b54c1c35d9d2883258dd9142"}], function(err, ok) {
                     if (err) {
                         console.log("DB CREATION CHECK, ERR", err);
                     }
@@ -30,6 +31,7 @@
 
                         console.log("DB CREATION CHECK, OK", ok);
                     }
+
 
 
                     window.config = {
@@ -46,9 +48,9 @@
                     triggerSync();
                 });
 
-            }
-            catch (err) {
-                console.log(TAG, "DB NOT CREATED YET!");
+
+
+            /*console.log(TAG, "DB NOT CREATED YET!");
                 console.log("ERROR", err);
                 setupDb(db, function(err, info){
                     console.log("setupDb: " + order +" " + info.doc_count);
@@ -68,11 +70,8 @@
                         triggerSync();
                     });
 
-                });
-            }
-            finally {
+                });*/
 
-            }
 
 
 
@@ -116,7 +115,7 @@
                     by_level: {
                         map: function (doc, meta) {
                             //if (doc.item_type && doc.item_type == "kanjicard") {
-                                emit(doc.lvl, 1);
+                                emit(doc.cardinfo.lvl, 1);
                             //}
 
                         }.toString(),
