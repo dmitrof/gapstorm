@@ -8,7 +8,10 @@
     index.y = 0;
     var cardsnumber = 0;
     var sidesnumber = 2;
+    var cardsList = {};
     var navList = [];
+    var TAG = "DataPresenter";
+    this.cardsNavigator = MyNavigator;
     //module for writing JSON data into DOM.
 
     exports.presentData = function() {
@@ -41,8 +44,10 @@
                     navItem.id = id;
                     navItem.sides = row.key.content.length;  //adding the card to navigation
                     navList.push(navItem);
+                    cardsList[id] = navItem.sides;
                 });
-                console.log("Navigation", navList);
+                cardsNavigator.initStack(cardsList);
+                //console.log("Navigation", navList);
             }
 
         });
@@ -83,13 +88,14 @@
             index.y = 0;
         }
 
-        console.log(index.x, index.y);
+        //console.log(index.x, index.y);
         $.mobile.pageContainer.pagecontainer("change", $("#" + item.id + "s" + index.y) , { transition : "slideup", reload : "false"});
 
 
     };
 
     exports.slideDown = function() {
+        //console.log(TAG, JSON.stringify(cardsList));
         var item = navList[index.x];
         sidesnumber = item.sides;
         if (index.y > 0) {
@@ -100,25 +106,24 @@
             index.y = sidesnumber - 1;
         }
 
-        console.log(index.x, index.y);
+        //console.log(index.x, index.y);
         $.mobile.pageContainer.pagecontainer("change", $("#" + item.id + "s" + index.y) , { transition : "slidedown", reload : "false"});
 
 
     };
 
+    function generateRandom(max, x) {
+        //console.log(TAG, x);
+        var num = Math.floor(Math.random() * max);
+        return (num === x) ? generateRandom(max, x) : num;
+    }
+
     exports.next = function() {
 
         index.y = 0;
-        if (index.x < (cardsnumber - 1)) {
-
-            index.x++;
-        }
-        else {
-
-            index.x = 0;
-        }
+        index.x = generateRandom(cardsnumber-1, index.x);
         var navItem = navList[index.x];
-        console.log(index.x, index.y);
+        //console.log(index.x, index.y);
         $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + index.y) , { transition : "slide", reload : "true" });
 
     };
@@ -136,7 +141,7 @@
         }
         var navItem = navList[index.x];
 
-        console.log(index.x, index.y);
+        //console.log(index.x, index.y);
         $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + index.y), { transition : "slide", reload : "true", reverse : "true" });
 
     };

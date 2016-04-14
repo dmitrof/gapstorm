@@ -21,56 +21,37 @@
                 }
 
             });*/
+            db.del(function(err, ok) {
+                if (err) {
+                    console.log(TAG, err);
+                }
+                if (ok) {
+                    console.log(TAG, ok);
+                }
 
-            db.get("kan6", function(err, ok) {
-                //db.get(["kan6", "atta.txt", {"rev" : "8-a1d83409b54c1c35d9d2883258dd9142"}], function(err, ok) {
-                    if (err) {
-                        console.log("DB CREATION CHECK, ERR", err);
-                    }
-                    if (ok) {
-
-                        console.log("DB CREATION CHECK, OK", ok);
-                    }
-
-
-
-                    window.config = {
-                        site : {
-                            syncUrl : "http://ttmitry:password@192.168.0.54:4984/gapstorm/",
-                            db : db,
-                            s : coax(url),
-                            //info : info,
-                            views : db(["_design/gapstorm", "_view"]),
-                            server : url
-
-                        }
-                    };
+            });
+            setupDb(db, function(err, info){
+                console.log("setupDb: " + order +" " + info.doc_count);
+                setupViews(db, function(err, views) {
+                    setupConfig(url, db, views, info);
                     triggerSync();
-                });
+                    db.get("kan6", function(err, ok) {
+                        //db.get(["kan6", "atta.txt", {"rev" : "8-a1d83409b54c1c35d9d2883258dd9142"}], function(err, ok) {
+                        if (err) {
+                            console.log("DB CREATION CHECK, ERR", err);
+                        }
+                        if (ok) {
 
-
-
-            /*console.log(TAG, "DB NOT CREATED YET!");
-                console.log("ERROR", err);
-                setupDb(db, function(err, info){
-                    console.log("setupDb: " + order +" " + info.doc_count);
-                    setupViews(db, function(err, views) {
-                        console.log("setting up configs");
-                        window.config = {
-                            site : {
-                                syncUrl : "http://ttmitry:password@192.168.0.54:4984/gapstorm/",
-                                db : db,
-                                s : coax(url),
-                                info : info,
-                                views : views,
-                                server : url
-
-                            }
-                        };
-                        triggerSync();
+                            console.log("DB CREATION CHECK, OK", ok);
+                        }
                     });
 
-                });*/
+                });
+
+            });
+
+
+
 
 
 
@@ -81,6 +62,21 @@
 
     };
 
+
+    function setupConfig(url, db, views, info) {
+        window.config = {
+            site : {
+                syncUrl : "http://ttmitry:password@192.168.0.54:4984/gapstorm/",
+                db : db,
+                s : coax(url),
+                info : info,
+                views : views,
+                server : url
+
+            }
+        };
+
+    }
 
     function setupDb(db, cb) {
         // db.del(function(){
@@ -97,26 +93,25 @@
                 db.put(design,  {
                     views : {
                         get_kanji: {
-                            map: function (doc, meta) {
-                                //if (doc.item_type && doc.item_type === "kanjicard") {
+                            map: function (doc) {
+                                if (doc.cardinfo.tasktype && doc.cardinfo.tasktype == "kanjicard") {
                                 emit(doc, null);
-                                // }
-
+                                 }
                             }.toString()
                         },
                     get_cards: {
-                        map: function (doc, meta) {
-                            //if (doc.item_type && doc.item_type === "kanjicard") {
+                        map: function (doc) {
+                            if (doc.cardinfo.tasktype && doc.cardinfo.tasktype == "kanjicard") {
                                 emit(doc, null);
-                           // }
+                            }
 
                         }.toString()
                     },
                     by_level: {
-                        map: function (doc, meta) {
-                            //if (doc.item_type && doc.item_type == "kanjicard") {
+                        map: function (doc) {
+                            if (doc.cardinfo) {
                                 emit(doc.cardinfo.lvl, 1);
-                            //}
+                            }
 
                         }.toString(),
                         reduce: function (keys, values, rereduce) {
@@ -167,7 +162,7 @@
                 view_doc.views = {
                     views : {
                         get_kanji: {
-                            map: function (doc, meta) {
+                            map: function (doc) {
                                 //if (doc.item_type && doc.item_type === "kanjicard") {
                                 emit(doc, null);
                                 // }
@@ -175,7 +170,7 @@
                             }.toString()
                         },
                         get_cards: {
-                            map: function (doc, meta) {
+                            map: function (doc) {
                                 //if (doc.item_type && doc.item_type === "kanjicard") {
                                 emit(doc, null);
                                 // }
@@ -183,7 +178,7 @@
                             }.toString()
                         },
                         by_level: {
-                            map: function (doc, meta) {
+                            map: function (doc) {
                                 //if (doc.item_type && doc.item_type == "kanjicard") {
                                 emit(doc.cardinfo.lvl, 1);
                                 //}
@@ -231,104 +226,6 @@
 
     }
 
-
-    var initPost = function() {
-
-        /*window.config.site.db.del(function(err, ok) {
-            if (err) {
-                console.log(TAG, err);
-            }
-            if (ok) {
-                console.log(TAG, ok);
-            }
-
-        });*/
-
-        var kan = {};
-        kan.task_type="kanjicard";
-        kan.name="joyo";
-        kan.indx="kan";
-
-        var kanji1 = {};
-        kanji1.indx = "kan1";
-        kanji1.item_type = "kanjicard";
-        kanji1.bigkanji = "星";
-        kanji1.kana = "ほし";
-        kanji1.lvl = "N2";
-        kanji1.words = "words",
-        kanji1.backside = {
-            kanjitrans : "starrrr",
-            romaji : "hoshi"
-        };
-
-
-
-
-
-        var kanji2 = {};
-        kanji2.indx = "kan4";
-        kanji2.item_type = "kanjicard";
-        kanji2.bigkanji = "家";
-        kanji2.kana = "いえ、";
-        kanji2.words = "家族";
-        kanji2.lvl = "N4";
-        kanji2.backside = {
-            kanjitrans: "houseeee",
-            romaji : "joyo"
-        }
-
-
-        //update cards syntax
-        window.config.site.db.get(kanji1.indx, function(err, ok) {
-            if (err) {
-                console.log(TAG, err);
-            }
-            if (ok) {
-                kanji1._rev = ok._rev;
-                console.log(TAG, ok);
-
-
-            }
-            window.config.site.db.put(kanji1.indx, kanji1, function(err, ok) {
-                if (err) {
-                    console.log(TAG, err);
-                    console.log(kanji1._rev);
-                } else
-                if (ok) {
-                    console.log(TAG, ok);
-                }
-
-            });
-
-
-        });
-
-        window.config.site.db.get(kanji2.indx, function(err, ok) {
-            if (err) {
-                console.log(TAG, err);
-
-            }
-            if (ok) {
-                kanji2._rev = ok._rev;
-                console.log(TAG, ok);
-
-
-            }
-            window.config.site.db.put(kanji2.indx, kanji2, function(err, ok) {
-                if (err) {
-                    console.log(TAG, err);
-                    console.log(kanji2._rev);
-                } else
-                if (ok) {
-                    console.log(TAG, ok);
-                }
-
-            });
-
-        });
-
-
-    };
 
 
     function triggerSync(cb, retryCount) {

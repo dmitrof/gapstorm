@@ -1,7 +1,7 @@
 <div id="-1" data-role="page" class="card" show="false">
     <div data-role="header">Kanji card!</div>
     <div data-role="main" class="ui-content">
-        <div class="bigkanji"></div>
+        <div class="kanji"></div>
         <div class="kana"></div>
         <div class="words">example</div>
         <div class="level"></div>
@@ -17,9 +17,9 @@
         //console.log(i, card);
         $("#-1").attr("id", i + "s" + cardside.cardside);
         //alert("id changed");
-        $("#" + i + "s" + cardside.cardside + " .bigkanji").html(cardside.bigkanji);
+        $("#" + i + "s" + cardside.cardside + " .kanji").html(cardside.bigkanji);
         //console.log(i, "check " + card.bigkanji);
-        $("#" + i +"s" + cardside.cardside + " .bigkanji").click(function() {
+        $("#" + i +"s" + cardside.cardside + " .kanji").click(function() {
             alert("you clicked " + i);
         });
         $("#" + i + "s" + cardside.cardside + " .kana").html(cardside.kana);
