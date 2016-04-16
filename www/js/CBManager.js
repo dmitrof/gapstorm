@@ -58,7 +58,7 @@
     function setupConfig(url, db, views, info) {
         window.config = {
             site : {
-                syncUrl : "http://ttmitry:password@192.168.0.54:4984/gapstorm/",
+                syncUrl : "http://" + username + ":" + password+ "@192.168.0.54:4984/gapstorm/",
                 db : db,
                 s : coax(url),
                 info : info,

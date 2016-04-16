@@ -32,15 +32,15 @@
         }
         console.log(TAG, stackAddition);
     };
-
+    //each currentStack cycle i do a restart
     function restart() {
         console.log(TAG, "restart");
+        //now i add information about repeats to a database
         stackAddition.forEach(function(cardId) {
-            cardId = "stat" + cardId;
+            cardId = username + "stat" + cardId;
             window.config.site.db.get(cardId, function(err, cardGet) {
                 var cardPut = {};
-
-
+                cardPut.stud_id = username;
                 if (err) {
                     console.log(err);
                     cardPut.rep_count = 1;
@@ -55,7 +55,7 @@
                 });
 
             });
-        });
+        });     //concatenating stacks
         currentStack = currentStack.concat(stackAddition);
         stackAddition = [];
         shuffle(currentStack);
@@ -66,15 +66,39 @@
 
     //this piece goes to prototype
 
+    function fillStack(cardId) {
+        //var cardId = cardInd;
+        console.log("cardId", cardId);
+        var cardStatId = username + "stat" + cardId;
+        window.config.site.db.get(cardStatId, function(err, cardGet) {
+            if (err) {
+                console.log(err);
+            }
+            else if (cardGet) {
+                //console.log(cardGet.rep_count);
+                for (var i = 0; i < cardGet.rep_count; i++) {
+                    currentStack.push(cardId);
+                    cardsnumber++;
+                }
+            }
+            fullStack = currentStack;
+            shuffle(fullStack);
+            console.log(TAG, fullStack);
+
+
+
+        });
+    }
+
     exports.initStack = function(_cardsList) {
 
-        for (cardId in _cardsList) {
-            currentStack.push(cardId);
-            cardsnumber++;
+        for (var cardInd in _cardsList) {
+            fillStack(cardInd);
         }
-        fullStack = currentStack;
-        console.log(TAG, fullStack);
         cardsList = _cardsList;
+
+
+
         //console.log("cardsLIST", cardsList);
     };
 

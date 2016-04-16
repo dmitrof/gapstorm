@@ -1,5 +1,7 @@
 
 console.log("awdawd","Hello, console!");
+var username = "ttmitry";
+var password = "password";
 
 var app = {
 
