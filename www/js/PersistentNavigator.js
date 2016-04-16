@@ -35,7 +35,27 @@
 
     function restart() {
         console.log(TAG, "restart");
+        stackAddition.forEach(function(cardId) {
+            cardId = "stat" + cardId;
+            window.config.site.db.get(cardId, function(err, cardGet) {
+                var cardPut = {};
 
+
+                if (err) {
+                    console.log(err);
+                    cardPut.rep_count = 1;
+                }
+                else if (cardGet) {
+                    console.log(cardGet);
+                    cardPut._rev = cardGet._rev;
+                    cardPut.rep_count = cardGet.rep_count + 1;
+                }
+                window.config.site.db.put(cardId, cardPut, function(err, ok) {
+                    console.log(err, ok);
+                });
+
+            });
+        });
         currentStack = currentStack.concat(stackAddition);
         stackAddition = [];
         shuffle(currentStack);
