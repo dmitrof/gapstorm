@@ -12,15 +12,7 @@
 
         window.cblite.getURL(function(err,url) {
             var db = coax([url, appDbName]);
-            /*db.del(function(err, ok) {
-                if (err) {
-                    console.log(TAG, err);
-                }
-                if (ok) {
-                    console.log(TAG, ok);
-                }
 
-            });*/
             db.del(function(err, ok) {
                 if (err) {
                     console.log(TAG, err);

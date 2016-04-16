@@ -7,7 +7,7 @@
     var card_x = -1;
     var card_y = 0;
     var cardsnumber = 0;
-    var TAG = "SimpleNavigator";
+    var TAG = "FullNavigator";
     var currentStack = [];
     var stackAddition = [];
     var fullStack = [];
@@ -26,9 +26,9 @@
 
     exports.markCard = function() {
 
-        if (stackAddition.indexOf(currentStack[card_x]) == -1) {
-            console.log("added", currentStack[card_x]);
-            stackAddition.push(currentStack[card_x]);
+        if (stackAddition.indexOf(fullStack[card_x]) == -1) {
+            console.log("added", fullStack[card_x]);
+            stackAddition.push(fullStack[card_x]);
         }
         console.log(TAG, stackAddition);
     };
@@ -39,9 +39,9 @@
         currentStack = currentStack.concat(stackAddition);
         stackAddition = [];
         shuffle(currentStack);
-        //fullStack = fullStack.concat(currentStack);
-        cardsnumber = currentStack.length;
-        card_x = 0;
+        fullStack = fullStack.concat(currentStack);
+        cardsnumber = fullStack.length;
+        card_x++;
     }
 
     //this piece goes to prototype
@@ -52,8 +52,8 @@
             currentStack.push(cardId);
             cardsnumber++;
         }
-        //fullStack = currentStack;
-        console.log(TAG, currentStack);
+        fullStack = currentStack;
+        console.log(TAG, fullStack);
         cardsList = _cardsList;
         //console.log("cardsLIST", cardsList);
     };
@@ -67,9 +67,9 @@
         else {
             restart();
         }
-        console.log(card_x, currentStack[card_x]);
+        console.log(card_x, fullStack[card_x]);
         var card = {};
-        card.id = currentStack[card_x];
+        card.id = fullStack[card_x];
         card.side = card_y;
         return card;
     };
@@ -87,13 +87,13 @@
         }
         console.log(card_x);
         var card = {};
-        card.id = currentStack[card_x];
+        card.id = fullStack[card_x];
         card.side = card_y;
         return card;
     };
 
     exports.flipUp = function() {
-        var sidesnumber = cardsList[currentStack[card_x]];
+        var sidesnumber = cardsList[fullStack[card_x]];
         if (card_y < (sidesnumber - 1)) {
 
             card_y++;
@@ -102,14 +102,14 @@
             card_y = 0;
         }
         var card = {};
-        card.id = currentStack[card_x];
+        card.id = fullStack[card_x];
         card.side = card_y;
         return card;
 
     };
 
     exports.flipDown = function() {
-        var sidesnumber = cardsList[currentStack[card_x]];
+        var sidesnumber = cardsList[fullStack[card_x]];
         if (card_y > 0) {
 
             card_y--;
@@ -118,7 +118,7 @@
             card_y = sidesnumber - 1;
         }
         var card = {};
-        card.id = currentStack[card_x];
+        card.id = fullStack[card_x];
         card.side = card_y;
         return card;
 
@@ -132,4 +132,4 @@
 
 
 
-})(this.MyNavigator = {});
+})(this.FullNavigator = {});

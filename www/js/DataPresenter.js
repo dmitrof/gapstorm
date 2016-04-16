@@ -11,7 +11,7 @@
     var cardsList = {};
     var navList = [];
     var TAG = "DataPresenter";
-    this.cardsNavigator = MyNavigator;
+    this.cardsNavigator = PersistentNavigator;
     //module for writing JSON data into DOM.
 
     exports.presentData = function() {
@@ -55,7 +55,6 @@
 
     //function that creates new cardside in pagecontainer
     this.writeDiv = function(id, card) {
-        console.log("writeDiv");
         var cardinfo = card.cardinfo;
         var cardsides = card.content;
         cardinfo.sides = cardsides.length;
@@ -78,36 +77,19 @@
     };
 
     exports.slideUp = function() {
-        var item = navList[index.x];
-        sidesnumber = item.sides;
-        if (index.y < (sidesnumber - 1)) {
-
-            index.y++;
-        }
-        else {
-            index.y = 0;
-        }
-
-        //console.log(index.x, index.y);
-        $.mobile.pageContainer.pagecontainer("change", $("#" + item.id + "s" + index.y) , { transition : "slideup", reload : "false"});
+        var navItem = cardsNavigator.flipUp();
+        cardsNavigator.markCard();
+        console.log(navItem.id, navItem.side);
+        $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + navItem.side) , { transition : "slideup", reload : "false"});
 
 
     };
 
     exports.slideDown = function() {
-        //console.log(TAG, JSON.stringify(cardsList));
-        var item = navList[index.x];
-        sidesnumber = item.sides;
-        if (index.y > 0) {
-
-            index.y--;
-        }
-        else {
-            index.y = sidesnumber - 1;
-        }
-
-        //console.log(index.x, index.y);
-        $.mobile.pageContainer.pagecontainer("change", $("#" + item.id + "s" + index.y) , { transition : "slidedown", reload : "false"});
+        var navItem = cardsNavigator.flipDown();
+        cardsNavigator.markCard();
+        console.log(navItem.id, navItem.side);
+        $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + navItem.side) , { transition : "slidedown", reload : "false"});
 
 
     };
@@ -120,29 +102,22 @@
 
     exports.next = function() {
 
-        index.y = 0;
-        index.x = generateRandom(cardsnumber-1, index.x);
-        var navItem = navList[index.x];
+
+        var navItem = cardsNavigator.next();
         //console.log(index.x, index.y);
-        $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + index.y) , { transition : "slide", reload : "true" });
+        $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + navItem.side) , { transition : "slide", reload : "true" });
 
     };
 
     exports.prev = function() {
 
-        index.y = 0;
+
         //$("#" + index).attr("show", "false");
 
-        if (index.x > 0) {
-            index.x--;
-        }
-        else {
-            index.x = cardsnumber - 1;
-        }
-        var navItem = navList[index.x];
 
+        var navItem = cardsNavigator.prev();
         //console.log(index.x, index.y);
-        $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + index.y), { transition : "slide", reload : "true", reverse : "true" });
+        $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + navItem.side), { transition : "slide", reload : "true", reverse : "true" });
 
     };
 
