@@ -83,7 +83,7 @@
             }
             fullStack = currentStack;
             shuffle(fullStack);
-            console.log(TAG, fullStack);
+            //console.log(TAG, fullStack);
 
 
 

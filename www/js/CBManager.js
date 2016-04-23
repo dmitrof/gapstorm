@@ -27,16 +27,7 @@
                 setupViews(db, function(err, views) {
                     setupConfig(url, db, views, info);
                     triggerSync();
-                    db.get("kan6", function(err, ok) {
-                        //db.get(["kan6", "atta.txt", {"rev" : "8-a1d83409b54c1c35d9d2883258dd9142"}], function(err, ok) {
-                        if (err) {
-                            console.log("DB CREATION CHECK, ERR", err);
-                        }
-                        if (ok) {
 
-                            console.log("DB CREATION CHECK, OK", ok);
-                        }
-                    });
 
                 });
 
@@ -94,6 +85,14 @@
                     get_cards: {
                         map: function (doc) {
                             if (doc.cardinfo.tasktype && doc.cardinfo.tasktype == "kanjicard") {
+                                emit(doc, null);
+                            }
+
+                        }.toString()
+                    },
+                    get_decks: {
+                        map: function (doc) {
+                            if (doc.doc_type && doc.doc_type == "deck") {
                                 emit(doc, null);
                             }
 
@@ -338,6 +337,7 @@
                         }
                     } else {
                         callHandlers("connected", info)
+
                     }
 
                 }

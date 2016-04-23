@@ -27,8 +27,19 @@ var app = {
 
 
 
-        $("#-1" + " #nextcard").click(function() {
-            DataPresenter.presentData();
+        $("#starter" + " #nextcard").click(function() {
+            //DataPresenter.presentData();
+            MenuPresenter.presentMenu();
+            /*window.config.site.db.get("kan11", function(err, ok) {
+                //db.get(["kan6", "atta.txt", {"rev" : "8-a1d83409b54c1c35d9d2883258dd9142"}], function(err, ok) {
+                if (err) {
+                    console.log("DB CREATION CHECK, ERR", err);
+                }
+                if (ok) {
+
+                    console.log("DB CREATION CHECK, OK", ok);
+                }
+            });*/
 
         });
         $("#-1" + " #prevcard").click(function() {

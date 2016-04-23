@@ -1,0 +1,12 @@
+<div class="menu_item" id="-2">
+    <button class="choose_deck_btn">Choose</button>
+
+</div>
+
+<script type="text/javascript">
+
+    var fill = function(menu_info) {
+        $("#-2").attr("id", menu_info.deck_id);
+        $("#" + menu_info.deck_id + " .choose_deck_btn").html(menu_info.deck_name);
+    };
+</script>
