@@ -27,9 +27,14 @@ var app = {
 
 
 
+        /*$(document).on("swiperight", function() {
+            console.log("right");
+            //DataPresenter.prev();
+        });*/
         $("#starter" + " #nextcard").click(function() {
             //DataPresenter.presentData();
             MenuPresenter.presentMenu();
+            //$.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
             /*window.config.site.db.get("kan11", function(err, ok) {
                 //db.get(["kan6", "atta.txt", {"rev" : "8-a1d83409b54c1c35d9d2883258dd9142"}], function(err, ok) {
                 if (err) {
@@ -42,21 +47,31 @@ var app = {
             });*/
 
         });
-        $("#-1" + " #prevcard").click(function() {
-            DataPresenter.presentData();
+        $("#starter" + " #prevcard").click(function() {
+            $.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
 
         });
 
-        $(document).on("swiperight", function() {
-            DataPresenter.prev();
-        });
 
-        $(document).on("swipeleft", function() {
+
+        /*$(".card").on("swipeleft", function() {
+            console.log("left");
             DataPresenter.next();
         });
 
+        $(".card").on("swipeleft", function() {
+            console.log("left");
+            DataPresenter.next();
+        });*/
 
-        $(document).swipe( {
+
+        $(".card").swipe( {
+            swipeRight:function(event, direction, distance, duration) {
+                DataPresenter.prev();
+            },
+            swipeLeft:function(event, direction, distance, duration) {
+                DataPresenter.next();
+            },
             swipeUp:function(event, direction, distance, duration) {
                 DataPresenter.slideUp();
             },

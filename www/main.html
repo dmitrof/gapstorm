@@ -37,7 +37,7 @@
         <script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
     </head>
     <body>
-        <div id="starter" data-role="page" class="card" show="false">
+        <div id="starter" data-role="page"  show="false">
             <div data-role="header">Kanji card!</div>
             <div data-role="main" class="ui-content">
                 Welcome to Kanji Cards demonstration!
@@ -46,12 +46,28 @@
             </div>
         </div>
 
+        <div id="menu" data-role="page" >
+
+            <div data-role="header">Decks menu</div>
+
+            <div data-role="main" class="ui-content">
+                <div id="decks_menu">
+                    Рекомендуемые колоды карточек <br>
+                </div>
+
+                <div id="custom_menu">
+                    Другие колоды карточек <br>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="cblite.js"></script>
         <script type="text/javascript" src="js/modules.js"></script>
         <script src="js/CBManager.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+
         <script src="js/jquery.touchSwipe.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
         <script src="js/rules/pagerules.js"></script>
         <script src="js/MenuPresenter.js"></script>
         <script src="js/MyNavigator.js"></script>

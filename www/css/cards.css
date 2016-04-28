@@ -10,6 +10,20 @@
 
 }
 
+.menu_item {
+    border-bottom:2px solid #B0B0B0;
+    padding-top: 10px;
+    padding-bottom : 10px;
+}
+
+
+#decks_menu {
+    border-bottom: 3px solid gray;
+}
+.deck_length, .deck_description {
+    margin-left : 5vw;
+}
+
 .singlekanji {
 
     width : 100%;

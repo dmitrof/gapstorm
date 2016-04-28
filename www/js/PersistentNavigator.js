@@ -11,6 +11,7 @@
     var currentStack = [];
     var stackAddition = [];
     var fullStack = [];
+    var stackPromises = [];
     cardsList = {};
 
 
@@ -68,38 +69,61 @@
 
     function fillStack(cardId) {
         //var cardId = cardInd;
-        console.log("cardId", cardId);
+        //console.log("cardId", cardId);
         var cardStatId = username + "stat" + cardId;
-        window.config.site.db.get(cardStatId, function(err, cardGet) {
-            if (err) {
-                console.log(err);
-            }
-            else if (cardGet) {
-                //console.log(cardGet.rep_count);
-                for (var i = 0; i < cardGet.rep_count; i++) {
-                    currentStack.push(cardId);
-                    cardsnumber++;
+        promise = new Promise(function(resolve, reject) {
+            window.config.site.db.get(cardStatId, function(err, cardGet) {
+                if (err) {
+                    console.log(err);
                 }
-            }
-            fullStack = currentStack;
-            shuffle(fullStack);
-            //console.log(TAG, fullStack);
-
-
-
+                else if (cardGet) {
+                    //console.log(cardGet.rep_count);
+                    for (var i = 0; i < cardGet.rep_count; i++) {
+                        currentStack.push(cardId);
+                        cardsnumber++;
+                    }
+                }
+                fullStack = currentStack;
+                shuffle(fullStack);
+                console.log("FULLSTACK", fullStack);
+                resolve("card added!");
+            });
         });
+        stackPromises.push(promise);
+
     }
 
     exports.initStack = function(_cardsList) {
-
+        currentStack = [];
+        fullStack = [];
+        stackAddition = [];
+        console.log("INITATING STACK", _cardsList);
         for (var cardInd in _cardsList) {
             fillStack(cardInd);
         }
         cardsList = _cardsList;
 
+        Promise.all(stackPromises).then(function(){
+            exports.start();
+            //console.log("stackpromises", stackPromises);
+
+        });
+
+
 
 
         //console.log("cardsLIST", cardsList);
+    };
+
+
+    exports.start = function() {
+        card_y = 0;
+        card_x = 1;
+        console.log(card_x, fullStack[card_x]);
+        //var card = {};
+        card_id = fullStack[card_x];
+        $.mobile.pageContainer.pagecontainer("change", $("#" + card_id + "s" + card_y) , { transition : "slideup", reload : "false"});
+        //return card;
     };
 
     exports.next = function() {

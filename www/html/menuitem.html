@@ -1,4 +1,6 @@
 <div class="menu_item" id="-2">
+    <div class="deck_description">О колоде: </div>
+    <div class="deck_length">Карточек: </div>
     <button class="choose_deck_btn">Choose</button>
 
 </div>
@@ -8,5 +10,11 @@
     var fill = function(menu_info) {
         $("#-2").attr("id", menu_info.deck_id);
         $("#" + menu_info.deck_id + " .choose_deck_btn").html(menu_info.deck_name);
+        $("#" + menu_info.deck_id + " .deck_length").append(menu_info.deck_length);
+        $("#" + menu_info.deck_id + " .deck_description").append(menu_info.deck_description);
+
+        $("#" + menu_info.deck_id + " .choose_deck_btn").click(function() {
+            DataPresenter.presentDeck(menu_info.deck_id);
+        })
     };
 </script>
