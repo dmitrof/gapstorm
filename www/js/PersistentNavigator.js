@@ -7,6 +7,7 @@
     var card_x = -1;
     var card_y = 0;
     var cardsnumber = 0;
+    var deckId;
     var TAG = "PersistentNavigator";
     var currentStack = [];
     var stackAddition = [];
@@ -49,7 +50,7 @@
                 else if (cardGet) {
                     console.log(cardGet);
                     cardPut._rev = cardGet._rev;
-                    cardPut.rep_count = cardGet.rep_count + 1;
+                    //cardPut.rep_count = cardGet.rep_count + 1;
                 }
                 window.config.site.db.put(cardId, cardPut, function(err, ok) {
                     console.log(err, ok);
@@ -75,6 +76,15 @@
             window.config.site.db.get(cardStatId, function(err, cardGet) {
                 if (err) {
                     console.log(err);
+                    var cardPut = {};
+                    cardPut.stud_id = username;
+                    console.log(err);
+                    cardPut.rep_count = 1;
+                    currentStack.push(cardId);
+                    cardsnumber++;
+                    window.config.site.db.put(cardStatId, cardPut, function(err, ok) {
+                        console.log(err, ok);
+                    });
                 }
                 else if (cardGet) {
                     //console.log(cardGet.rep_count);
@@ -93,11 +103,16 @@
 
     }
 
-    exports.initStack = function(_cardsList) {
+    exports.initStack = function(_deckId, _cardsList) {
+        deckId = _deckId;
+        stackPromises = [];
         currentStack = [];
         fullStack = [];
         stackAddition = [];
-        console.log("INITATING STACK", _cardsList);
+        cardsnumber = 0;
+        card_x = -1;
+        card_y = 0;
+        console.log("INITATING STACK " + _deckId, _cardsList);
         for (var cardInd in _cardsList) {
             fillStack(cardInd);
         }
@@ -108,17 +123,13 @@
             //console.log("stackpromises", stackPromises);
 
         });
-
-
-
-
         //console.log("cardsLIST", cardsList);
     };
 
 
     exports.start = function() {
         card_y = 0;
-        card_x = 1;
+        card_x = 0;
         console.log(card_x, fullStack[card_x]);
         //var card = {};
         card_id = fullStack[card_x];

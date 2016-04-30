@@ -3,8 +3,6 @@
  */
 (function(exports){
 
-    var cardsnumber = 0;
-    var sidesnumber = 2;
     var cardsList = {};
     var TAG = "DataPresenter";
     this.cardsNavigator = PersistentNavigator;
@@ -14,6 +12,8 @@
     //promises = [];
 
     exports.presentDeck = function(deck_id) {
+        cardsSet = [];
+        cardsList = [];
         var promises = [];
         window.config.site.db.get(deck_id, function(err, deck) {
             if (err) {console.log(TAG, err)}
@@ -36,29 +36,48 @@
                         /*promise.then(function() {
                            console.log("CardsSet", cardsSet);
                         });*/
-
-                        //console.log("PROMISE", promise);
                         promises.push(promise);
-
-
-                        /*$.when($, promises).done(function() {
-                            //presentData();
-                            console.log("PROMISES", promises);
-                            console.log("CARDSSET", cardsSet);
-                        });*/
                     });
                 }
             }
             Promise.all(promises).then(function(){
-                presentData();
+                presentData(deck_id);
                 console.log("promises", promises);
 
             });
         });
+    };
+
+    exports.presentCustomDeck = function(cards_list) {
+        cardsSet = [];
+        cardsList = [];
+        var promises = [];
+        cards_list.forEach(function(card_id) {
+            promise = new Promise(function(resolve, reject) {
+                window.config.site.db.get(card_id, function(err, card) {
+                    if (err) {console.log(TAG, err)}
+                    else if (card) {
+                        cardsSet.push(card);
+                        resolve("get finished!");
+                    }
+                });
+            });
+            /*promise.then(function() {
+             console.log("CardsSet", cardsSet);
+             });*/
+            promises.push(promise);
+        });
+        Promise.all(promises).then(function(){
+            presentData("custom");
+            console.log("promises", promises);
+
+        });
+
 
     };
 
-    this.presentData = function() {
+    this.presentData = function(deckId) {
+        $("#cards_place").empty();
         //$("div.card").remove();
         var id = -1;
         console.log("presentData", cardsSet);
@@ -71,32 +90,27 @@
             navItem.sides = row.content.length;  //adding the card to navigation
             cardsList[id] = navItem.sides;
         });
-        cardsNavigator.initStack(cardsList);
+        cardsNavigator.initStack(deckId, cardsList);
 
 
     };
 
     //function that creates new cardside in pagecontainer
     this.writeDiv = function(id, card) {
-        var cardinfo = card.cardinfo;
+        var card_info = card.card_info;
         var cardsides = card.content;
-        cardinfo.sides = cardsides.length;
+        card_info.sides = cardsides.length;
         cardsides.forEach(function(cardside) {
 
             //console.log("Cardside", cardside);
             $.get("html/" + cardside.item_type + ".html", function(textdata) {
-                $("body").prepend(textdata);
+                $("#cards_place").append(textdata);
 
-                fill(id, cardside, cardinfo);
+                fill(id, cardside, card_info);
 
             });
 
         });
-
-
-
-
-
     };
 
     /*exports.start = function() {

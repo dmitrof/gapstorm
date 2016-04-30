@@ -33,12 +33,6 @@
 
             });
 
-
-
-
-
-
-
         });
         return 1;
 
@@ -77,50 +71,74 @@
                     views : {
                         get_kanji: {
                             map: function (doc) {
-                                if (doc.cardinfo.tasktype && doc.cardinfo.tasktype == "kanjicard") {
+                                if (doc.card_info.task_type && doc.card_info.task_type == "kanji_card") {
                                 emit(doc, null);
                                  }
                             }.toString()
                         },
-                    get_cards: {
-                        map: function (doc) {
-                            if (doc.cardinfo.tasktype && doc.cardinfo.tasktype == "kanjicard") {
+                        get_cards: {
+                            map: function (doc) {
+                                if (doc.card_info.task_type && doc.card_info.task_type == "kanji_card") {
                                 emit(doc, null);
-                            }
-
-                        }.toString()
-                    },
-                    get_decks: {
-                        map: function (doc) {
-                            if (doc.doc_type && doc.doc_type == "deck") {
-                                emit(doc, null);
-                            }
-
-                        }.toString()
-                    },
-                    by_level: {
-                        map: function (doc) {
-                            if (doc.cardinfo) {
-                                emit(doc.cardinfo.lvl, 1);
-                            }
-
-                        }.toString(),
-                        reduce: function (keys, values, rereduce) {
-                            if (!rereduce) {
-                                return values.length;
-                            } else {
-                                var sum = 0;
-                                for (i in values) {
-                                    sum += values[i];
                                 }
-                                return sum;
-                            }
-                        }.toString()
+
+                            }.toString()
+                        },
+                        get_decks: {
+                            map: function (doc) {
+                                if (doc.doc_type && doc.doc_type == "deck") {
+                                    emit(doc, null);
+                                }
+
+                            }.toString()
+                        },
+                        by_level: {
+                            map: function (doc) {
+                                if (doc.card_info) {
+                                     emit(doc.card_info.lvl, 1);
+                                }
+
+                            }.toString(),
+                            reduce: function (keys, values, rereduce) {
+                                if (!rereduce) {
+                                    return values.length;
+                                } else {
+                                    var sum = 0;
+                                    for (i in values) {
+                                        sum += values[i];
+                                    }
+                                    return sum;
+                                }
+                            }.toString()
+                        },
+                        kanji_cards_by_level: {
+                            map: function (doc) {
+                                if (doc.card_info && doc.card_info.task_type == "kanji_card") {
+                                    emit(doc.card_info.lvl, doc._id);
+                                }
+
+                            }.toString(),
+                            reduce: function (keys, values, rereduce) {
+                                return values;
+                            }.toString()
+                        },
+                        cards_by_feature: {
+                            map: function (doc) {
+                                if (doc.doc_type == "flashcard" && doc.features) {
+                                    doc.features.forEach(function(feature) {
+
+                                        emit(feature, doc._id);
+                                    });
+                                }
+
+                            }.toString(),
+                            reduce: function (keys, values, rereduce) {
+                                return values;
+                            }.toString()
+                        }
 
 
                     }
-
-                     }
                 },
 
                     function() {
@@ -138,84 +156,7 @@
 
     }
 
-    function updateViews(db, cb) {
-        var design = "_design/gapstorm";
-        /*db.del(design, function(err, ok) {
-         console.log(err, ok);
-         });*/
-        db.get(design, function(err, ok) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(ok);
-                var view_doc = ok;
-                view_doc.views = {
-                    views : {
-                        get_kanji: {
-                            map: function (doc) {
-                                //if (doc.item_type && doc.item_type === "kanjicard") {
-                                emit(doc, null);
-                                // }
 
-                            }.toString()
-                        },
-                        get_cards: {
-                            map: function (doc) {
-                                //if (doc.item_type && doc.item_type === "kanjicard") {
-                                emit(doc, null);
-                                // }
-
-                            }.toString()
-                        },
-                        by_level: {
-                            map: function (doc) {
-                                //if (doc.item_type && doc.item_type == "kanjicard") {
-                                emit(doc.cardinfo.lvl, 1);
-                                //}
-
-                            }.toString(),
-                            reduce: function (keys, values, rereduce) {
-                                if (!rereduce) {
-                                    return values.length;
-                                } else {
-                                    var sum = 0;
-                                    for (i in values) {
-                                        sum += values[i];
-                                    }
-                                    return sum;
-                                }
-                            }.toString()
-
-
-                        }
-
-                    }
-                };
-
-
-                db.put(design, view_doc,
-
-                    function(err, success) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            console.log(success);
-                            $.when(cb(false, db([design, "_view"]))).done(function() {
-
-                                //DataPresenter.presentData();
-
-                            });
-                        }
-
-                    })
-
-            }
-        });
-
-
-    }
 
 
 
@@ -250,17 +191,18 @@
         pushSync.on("error", function(err){
             if (challenged) {return}
             console.log("err", err)
-        })
+        });
         pushSync.on("connected", function(){
             pullSync.start()
-        })
+        });
         pullSync.on("error", function(err){
             if (challenged) {return}
-            console.log("err", err)
-        })
+            console.log("err", err);
+        });
         pullSync.on("connected", function(){
-            console.log("connected", "connected")
-        })
+            console.log("connected", "connected");
+            setTimeout(MenuPresenter.presentMenu, 2000);
+        });
         // setTimeout(function(){
         pushSync.start();
         // }, 10000)
@@ -269,7 +211,7 @@
 
 
     function syncManager(serverUrl, syncDefinition) {
-        var handlers = {}
+        var handlers = {};
 
         function callHandlers(name, data) {
             (handlers[name]||[]).forEach(function(h){
@@ -279,7 +221,7 @@
 
         function doCancelPost(cb) {
             var cancelDef = JSON.parse(JSON.stringify(syncDefinition))
-            cancelDef.cancel = true
+            cancelDef.cancel = true;
             coax.post([serverUrl, "_replicate"], cancelDef, function(err, info){
                 if (err) {
                     callHandlers("error", err)
@@ -320,7 +262,7 @@
                     if (err) {
                         callHandlers("error", err)
                     } else {
-                        pollForStatus(info, 10000)
+                        pollForStatus(info, 10000);
                         callHandlers("started", info)
                     }
                 }
@@ -344,7 +286,8 @@
             }
             console.log("start sync",JSON.stringify(syncDefinition));
             coax.post([serverUrl, "_replicate"], syncDefinition, callBack);
-            // coax.post([serverUrl, "_replicator"], syncDefinition, callBack)
+            //$.when(coax.post([serverUrl, "_replicate"], syncDefinition, callBack)).done(MenuPresenter.presentMenu());
+             //coax.post([serverUrl, "_replicator"], syncDefinition, callBack)
         }
 
         function processTaskInfo(id, cb) {
@@ -397,6 +340,88 @@
 
     function log() {
         console.log.apply(console, arguments)
+    }
+
+
+
+
+    function updateViews(db, cb) {
+        var design = "_design/gapstorm";
+        /*db.del(design, function(err, ok) {
+         console.log(err, ok);
+         });*/
+        db.get(design, function(err, ok) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(ok);
+                var view_doc = ok;
+                view_doc.views = {
+                    views : {
+                        get_kanji: {
+                            map: function (doc) {
+                                //if (doc.item_type && doc.item_type === "kanji_card") {
+                                emit(doc, null);
+                                // }
+
+                            }.toString()
+                        },
+                        get_cards: {
+                            map: function (doc) {
+                                //if (doc.item_type && doc.item_type === "kanji_card") {
+                                emit(doc, null);
+                                // }
+
+                            }.toString()
+                        },
+                        by_level: {
+                            map: function (doc) {
+                                //if (doc.item_type && doc.item_type == "kanji_card") {
+                                emit(doc.card_info.lvl, 1);
+                                //}
+
+                            }.toString(),
+                            reduce: function (keys, values, rereduce) {
+                                if (!rereduce) {
+                                    return values.length;
+                                } else {
+                                    var sum = 0;
+                                    for (i in values) {
+                                        sum += values[i];
+                                    }
+                                    return sum;
+                                }
+                            }.toString()
+
+
+                        }
+
+                    }
+                };
+
+
+                db.put(design, view_doc,
+
+                    function(err, success) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            console.log(success);
+                            $.when(cb(false, db([design, "_view"]))).done(function() {
+
+                                //DataPresenter.presentData();
+
+                            });
+                        }
+
+                    })
+
+            }
+        });
+
+
     }
 
 })(this.CBManager = {});

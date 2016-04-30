@@ -7,6 +7,7 @@ var app = {
 
     // Application Constructor
     initialize: function() {
+
         this.bindEvents();
     },
     // Bind Event Listeners
@@ -25,47 +26,38 @@ var app = {
 
         CBManager.createDB();
 
-
-
-        /*$(document).on("swiperight", function() {
-            console.log("right");
-            //DataPresenter.prev();
-        });*/
-        $("#starter" + " #nextcard").click(function() {
-            //DataPresenter.presentData();
+        //$.blockUI();
+        /*$("#starter" + " #nextcard").click(function() {
             MenuPresenter.presentMenu();
-            //$.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
-            /*window.config.site.db.get("kan11", function(err, ok) {
-                //db.get(["kan6", "atta.txt", {"rev" : "8-a1d83409b54c1c35d9d2883258dd9142"}], function(err, ok) {
-                if (err) {
-                    console.log("DB CREATION CHECK, ERR", err);
-                }
-                if (ok) {
 
-                    console.log("DB CREATION CHECK, OK", ok);
-                }
-            });*/
-
-        });
+        });*/
         $("#starter" + " #prevcard").click(function() {
             $.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
 
         });
 
 
-
-        /*$(".card").on("swipeleft", function() {
-            console.log("left");
+        $("#cards_place").on("swipeleft", ".card", function() {
+            //console.log("left");
             DataPresenter.next();
         });
+        $("#cards_place").on("swiperight", ".card", function() {
+            //console.log("right");
+            DataPresenter.prev();
+        });
+        $("#cards_place").on("swipeup", ".card", function() {
+            //console.log("up");
+            DataPresenter.slideUp();
+        });
+        $("#cards_place").on("swipedown", ".card", function() {
+            //console.log("down");
+            DataPresenter.slideDown();
+        });
 
-        $(".card").on("swipeleft", function() {
-            console.log("left");
-            DataPresenter.next();
-        });*/
 
 
-        $(".card").swipe( {
+
+        /*$(".card").swipe( {
             swipeRight:function(event, direction, distance, duration) {
                 DataPresenter.prev();
             },
@@ -82,8 +74,8 @@ var app = {
             },
             threshold:100,
             allowPageScroll:"vertical"
-        });
-    },
+        });*/
+    }
     // Update DOM on a Received Event
 
 };
