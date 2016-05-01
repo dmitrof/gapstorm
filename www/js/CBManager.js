@@ -135,6 +135,20 @@
                             reduce: function (keys, values, rereduce) {
                                 return values;
                             }.toString()
+                        },
+                        cards_by_feature_by_level: {
+                            map: function (doc) {
+                                if (doc.doc_type == "flashcard" && doc.features) {
+                                    doc.features.forEach(function(feature) {
+
+                                        emit({"feature" : feature, "lvl" : doc.card_info.lvl}, doc._id);
+                                    });
+                                }
+
+                            }.toString(),
+                            reduce: function (keys, values, rereduce) {
+                                return values;
+                            }.toString()
                         }
 
 

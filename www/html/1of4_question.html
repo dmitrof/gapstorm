@@ -1,0 +1,69 @@
+<div id="-1" data-role="page" class="card test_card" show="false">
+    <!--<div data-role="header">Kanji card!</div>-->
+    <div data-role="main" class="ui-content">
+
+        <div class="question">Here is the question</div>
+
+        <input type="radio" class="radio_option1" name="option" value="wrong"><label class="label_option1">1</label>
+        <input type="radio" class="radio_option2" name="option" value="wrong"><label class="label_option2">2</label>
+        <input type="radio" class="radio_option3" name="option" value="wrong"><label class="label_option3">3</label>
+        <input type="radio" class="radio_option4" name="option" value="wrong"><label class="label_option4">4</label>
+        <button class="submit_answer">Ответить</button>
+        <div class="level"></div>
+        <div class="sideinfo"></div>
+        <br>
+       <!-- <a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
+        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>-->
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    var fill = function(i, cardside, card_info) {
+        //console.log(i, cardside.wrong_options[0]);
+        var pageId = "#" + i + "s" + cardside.cardside;
+        $("#-1").attr("id", i + "s" + cardside.cardside);
+        //alert("id changed");
+        optionsList = cardside.wrong_options;
+        optionsList.push(cardside.answer);
+        //console.log("optionsLIst" , optionsList);
+        PersistentNavigator.shuffleArray(optionsList);
+        $(pageId + " .question").html(cardside.question_text);
+        $(pageId + " .label_option1").html(optionsList[0]);
+        $(pageId + " .label_option2").html(optionsList[1]);
+        $(pageId + " .label_option3").html(optionsList[2]);
+        $(pageId + " .label_option4").html(optionsList[3]);
+        //console.log("index of answer" , optionsList.indexOf(cardside.answer));
+
+        var correctOption = optionsList.indexOf(cardside.answer) + 1;
+        $(pageId + " .radio_option" + correctOption).attr("value", "correct");
+
+        $(pageId + " .submit_answer").click(function() {
+            var ansVal = $('input[name=option]:checked', pageId).val();
+            if (ansVal == "correct") {
+                alert("Correct answer");
+            }
+            else {
+                alert("Wrong answer");
+            }
+        });
+        //console.log(i, "check " + card.bigkanji);
+        $(pageId + " .level").html(card_info.lvl);
+        $(pageId + " .sideinfo").html((cardside.cardside + 1) + "/" + card_info.sides);
+       // console.log(i, "check" + card.lvl);
+        /*$("#" + i + cardside.cardside + " #nextcard").click(function() {
+
+            DataPresenter.next();
+        });
+        //console.log(i, "check");
+        $("#" + i + cardside.cardside + " #prevcard").click(function() {
+            DataPresenter.prev();
+        });*/
+
+    };
+ </script>
+
+
+
+
+

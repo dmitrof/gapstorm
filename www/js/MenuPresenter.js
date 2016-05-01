@@ -55,21 +55,47 @@
                 view.rows.forEach(function(row) {
                     var deck = {};
                     deck.description = "JLPT  " + row.key;
-                    deck.deck_name = "JLPT  " + row.key;
+                    deck.deck_name = featureTranslate[row.key];
                     deck.length = row.value.length;
                     deck.custom = true;
                     deck.cards_list = row.value;
                     deck.type = "kanji_cards_deck";
                     AddDeckToMenu(row.key, deck);
+                    Promise.all(menuReadyPromises).then(function() {
+                        console.log("menuReadyPromises", menuReadyPromises);
+                        $.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
+                    });
                 });
 
             }
-            Promise.all(menuReadyPromises).then(function() {
-                console.log("menuReadyPromises", menuReadyPromises);
-                $.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
-            });
+
 
         });
+
+        /*window.config.site.views(["cards_by_feature_by_level", {group : true}], function(err, view) {
+            if (err) {
+                console.log("err ",err);
+            }
+            else if (view) {
+                console.log("success", view.rows);
+                view.rows.forEach(function(row) {
+                    console.log("by_fe_by_le", row);
+                    var deck = {};
+                    deck.description = "JLPT  " + row.key.lvl + row.key.feature;
+                    deck.deck_name = featureTranslate[row.key.feature] + " JLPT" + row.key.lvl ;
+                    deck.length = row.value.length;
+                    deck.custom = true;
+                    deck.cards_list = row.value;
+                    deck.type = "kanji_cards_deck";
+                    AddDeckToMenu("JLPT_" + row.key.lvl + row.key.feature, deck);
+
+                });
+
+            }
+
+
+        });*/
+
 
 
     };

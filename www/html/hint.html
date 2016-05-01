@@ -1,0 +1,41 @@
+<div id="-1" data-role="page" class="card" show="false">
+    <!--<div data-role="header">Kanji card!</div>-->
+    <div data-role="main" class="ui-content">
+        <div class="hint">Hint text</div>
+        <div class="level"></div>
+        <div class="sideinfo"></div>
+        <br>
+       <!-- <a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
+        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>-->
+    </div>
+
+</div>
+<script type="text/javascript">
+    
+    var fill = function(i, cardside, card_info) {
+        var pageId = pageId;
+        //console.log(i, card);
+        $("#-1").attr("id", i + "s" + cardside.cardside);
+        //alert("id changed");
+        $(pageId + " .hint").html(cardside.hint_text);
+
+        //console.log(i, "check " + card.bigkanji);
+        $(pageId + " .level").html(card_info.lvl);
+        $(pageId + " .sideinfo").html((cardside.cardside + 1) + "/" + card_info.sides);
+       // console.log(i, "check" + card.lvl);
+        /*$("#" + i + cardside.cardside + " #nextcard").click(function() {
+
+            DataPresenter.next();
+        });
+        //console.log(i, "check");
+        $("#" + i + cardside.cardside + " #prevcard").click(function() {
+            DataPresenter.prev();
+        });*/
+
+    };
+ </script>
+
+
+
+
+

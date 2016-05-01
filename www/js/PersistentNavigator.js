@@ -26,6 +26,8 @@
         }
     }
 
+    exports.shuffleArray = shuffle;
+
     exports.markCard = function() {
 
         if (stackAddition.indexOf(fullStack[card_x]) == -1) {
