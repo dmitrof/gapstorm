@@ -1,11 +1,19 @@
 <div id="-1" data-role="page" class="card" show="false">
-    <div data-role="header">Kanji card!</div>
     <div data-role="main" class="ui-content">
-        <div class="kanji"></div>
-        <div class="kana"></div>
-        <div class="words">example</div>
-        <div class="level"></div>
-        <div class="sideinfo"></div>
+        <div class="cardside_content">
+            <div class="kanji">星</div>
+            <div class="kanas">
+                <div class="kuns">ほし  -ぼし</div>
+                <div class="ons">セイ</div>
+            </div>
+            <br>
+            <div class="words">惑星 衛星 惑星</div>
+
+
+
+        </div>
+        <div class="level">N2</div>
+        <div class="sideinfo">1/3</div>
         <br>
         <!--<a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
         <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>-->
@@ -23,8 +31,8 @@
         $("#" + i +"s" + cardside.cardside + " .kanji").click(function() {
             alert("you clicked " + i);
         });
-        $("#" + i + "s" + cardside.cardside + " .kana").html(cardside.kana);
-        //console.log(i, "check" + card.kana);
+        $("#" + i + "s" + cardside.cardside + " .kuns").html(cardside.kun);
+        //console.log(i, "check" + card.kun);
 
         $("#" + i + "s" + cardside.cardside + " .words").html(cardside.words);
        // console.log(i, "check" + card.words);

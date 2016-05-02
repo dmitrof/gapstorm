@@ -34,16 +34,116 @@
     text-align : center;
 }
 
+.kanji {
+    position:relative;
+    text-align:center;
+    vertical-align:center;
+    float:left;
+    width:32%;
+    height: 50%;
+    font-size:34vh;
+}
+
+.kanas {
+    float:right;
+    position:relative;
+    width:67%;
+    height: 50%;
+}
+
+.word {
+    padding-left:1%;
+    width:40%;
+}
+.word_kun {
+    padding-left:1%;
+    width:60%;
+}
+
+.kun {
+    display:inline-block;
+    margin-right : 1%;
+    margin-top: 3vh;
+    font-size:8vh;
+}
+
+.on {
+    display:inline-block;
+    margin-right : 1%;
+    margin-top: 3vh;
+    font-size:8vh;
+}
+
+.kuns {
+    font-size:8vh;
+    padding-left:3%;
+    height: 50%;
+}
+
+.ons {
+    font-size:8vh;
+    padding-left:3%;
+    height: 50%;
+}
+
+.words {
+    position:relative;
+    float:left;
+    font-size:30pt;
+    width:100%;
+    height: 44vh;
+    vertical-align : center;
+
+
+}
+
+div {
+
+}
+
+td {
+
+}
+
+.card_template {
+    /*padding-left : 2vw; padding-right : 2vw;
+    padding-top : 3vh;
+    padding-bottom : 3vh;*/
+    overflow : auto;
+    /*vertical-align : center;
+    text-align : center;*/
+}
+
+
+
+.cardside_content {
+
+    position : relative;
+    margin-top : 3vh;
+    margin-left:2vw;
+    width : calc(100% - 5vw);
+    height : calc(100% - 8vh);
+    /*width : 100%;
+    height:100%;
+    margin-left : 2vw;
+    margin-top : 3vh;
+    margin-bottom : 3vh;
+    margin-right : 2vw;*/
+    border : 1px solid black;
+}
+
+
+
 .sideinfo {
     font-size: 16pt;
-    position: fixed;
-    top: 5vh;
-    left: 4vw;
+    position: absolute;
+    top: 1vh;
+    left: 0.5vw;
 }
 
 .level {
-    font-size: 20pt;
-    position: fixed;
+    font-size: 18pt;
+    position: absolute;
     bottom: 2vh;
-    right: 5vw;
+    left: 97vw;
 }
