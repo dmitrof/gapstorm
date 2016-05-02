@@ -28,21 +28,33 @@
 
     exports.shuffleArray = shuffle;
 
-    exports.markCard = function() {
+    exports.markCard = function(actionType) {
 
+        var taskType = cardsList[fullStack[card_x]].task_type;
+        console.log("THIS CARD's Type : ", taskType);
+        var taskObj = markRules[taskType];
+        var modifier = taskObj[actionType];
+        console.log("MODIFIER FOR THIS CARD IS", modifier);
         if (stackAddition.indexOf(fullStack[card_x]) == -1) {
             console.log("added", fullStack[card_x]);
-            stackAddition.push(fullStack[card_x]);
+            var addition = {};
+            addition.id = fullStack[card_x];
+            addition.modifier = modifier;
+            stackAddition.push(addition);
         }
         console.log(TAG, stackAddition);
     };
     //each currentStack cycle i do a restart
     function restart() {
-        console.log(TAG, "restart");
+        console.log("restart, stack addition: ", stackAddition);
         //now i add information about repeats to a database
-        stackAddition.forEach(function(cardId) {
-            cardId = username + "stat" + cardId;
-            window.config.site.db.get(cardId, function(err, cardGet) {
+        stackAddition.forEach(function(addition) {
+            var cardStatId = username + "stat" + addition.id;
+
+            var modifier = addition.modifier;
+            currentStack.push(addition.id);
+            //console.log("PUSHED TO CURRENT STACK", currentStack);
+            window.config.site.db.get(cardStatId, function(err, cardGet) {
                 var cardPut = {};
                 cardPut.stud_id = username;
                 if (err) {
@@ -52,20 +64,23 @@
                 else if (cardGet) {
                     console.log(cardGet);
                     cardPut._rev = cardGet._rev;
-                    //cardPut.rep_count = cardGet.rep_count + 1;
+                    cardPut.rep_count = cardGet.rep_count + modifier;
                 }
-                window.config.site.db.put(cardId, cardPut, function(err, ok) {
+                window.config.site.db.put(cardStatId, cardPut, function(err, ok) {
                     console.log(err, ok);
                 });
 
             });
         });     //concatenating stacks
-        currentStack = currentStack.concat(stackAddition);
-        stackAddition = [];
+        //currentStack = currentStack.concat(stackAddition);
+        //console.log("BEFORESHUFFLE", currentStack);
         shuffle(currentStack);
+        //console.log("CURRENTSTACK", currentStack);
         fullStack = fullStack.concat(currentStack);
         cardsnumber = fullStack.length;
         card_x++;
+        stackAddition = [];
+        //console.log("FULLSTACK", fullStack);
     }
 
     //this piece goes to prototype
@@ -90,7 +105,10 @@
                 }
                 else if (cardGet) {
                     //console.log(cardGet.rep_count);
-                    for (var i = 0; i < cardGet.rep_count; i++) {
+                    if (!cardGet.rep_count || cardGet.rep_count == 0) {
+
+                    }
+                    for (var i = 0; i < Math.floor(cardGet.rep_count); i++) {
                         currentStack.push(cardId);
                         cardsnumber++;
                     }
@@ -174,7 +192,7 @@
     };
 
     exports.flipUp = function() {
-        var sidesnumber = cardsList[fullStack[card_x]];
+        var sidesnumber = cardsList[fullStack[card_x]].sides;
         if (card_y < (sidesnumber - 1)) {
 
             card_y++;
@@ -190,7 +208,7 @@
     };
 
     exports.flipDown = function() {
-        var sidesnumber = cardsList[fullStack[card_x]];
+        var sidesnumber = cardsList[fullStack[card_x]].sides;
         if (card_y > 0) {
 
             card_y--;

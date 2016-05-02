@@ -88,7 +88,9 @@
             var navItem = {};
             navItem.id = id;
             navItem.sides = row.content.length;  //adding the card to navigation
-            cardsList[id] = navItem.sides;
+            navItem.task_type = row.card_info.task_type;
+            //cardsList[id] = navItem.sides;
+            cardsList[id] = navItem;
         });
         cardsNavigator.initStack(deckId, cardsList);
 
@@ -121,7 +123,7 @@
 
     exports.slideUp = function() {
         var navItem = cardsNavigator.flipUp();
-        cardsNavigator.markCard();
+        cardsNavigator.markCard("flip");
         console.log(navItem.id, navItem.side);
         $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + navItem.side) , { transition : "slideup", reload : "false"});
 
@@ -130,7 +132,7 @@
 
     exports.slideDown = function() {
         var navItem = cardsNavigator.flipDown();
-        cardsNavigator.markCard();
+        cardsNavigator.markCard("flip");
         console.log(navItem.id, navItem.side);
         $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + navItem.side) , { transition : "slidedown", reload : "false"});
 
