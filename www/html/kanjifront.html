@@ -1,46 +1,67 @@
 <div id="-1" data-role="page" class="card" show="false">
     <div data-role="main" class="ui-content">
         <div class="cardside_content">
-            <div class="kanji">星</div>
+        </div>
+            <div class="kanji"></div>
             <div class="kanas">
-                <div class="kuns">ほし  -ぼし</div>
-                <div class="ons">セイ</div>
+                <div class="kuns"></div>
+                <div class="ons"></div>
             </div>
             <br>
-            <div class="words">惑星 衛星 惑星</div>
+            <table class="words">
 
 
 
-        </div>
-        <div class="level">N2</div>
-        <div class="sideinfo">1/3</div>
+            </table>
+
+
+
+
+        <div class="level"></div>
+        <div class="sideinfo"></div>
         <br>
-        <!--<a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
-        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>-->
+
     </div>
 
 </div>
 <script type="text/javascript">
 
     var fill = function(i, cardside, card_info) {
-        //console.log(i, card);
+        console.log(i, cardside);
+
+        var pageId = "#" + i + "s" + cardside.cardside;
+        //$(pageId + " .words").html("Шта");
         $("#-1").attr("id", i + "s" + cardside.cardside);
         //alert("id changed");
-        $("#" + i + "s" + cardside.cardside + " .kanji").html(cardside.kanji);
+        $(pageId + " .kanji").html(cardside.kanji);
         //console.log(i, "check " + card.bigkanji);
-        $("#" + i +"s" + cardside.cardside + " .kanji").click(function() {
+        $(pageId + " .kanji").click(function() {
             alert("you clicked " + i);
         });
-        $("#" + i + "s" + cardside.cardside + " .kuns").html(cardside.kun);
+        cardside.kun.forEach(function(kunItem) {
+            var divItem = "<div class='kun'>" + kunItem + "</div>";
+            $(pageId + " .kuns").append(divItem);
+        });
+        cardside["on"].forEach(function(onItem) {
+            var divItem = "<div class='on'>" + onItem + "</div>";
+            $(pageId + " .ons").append(divItem);
+        });
+        var k = 0;
+        cardside.words.forEach(function(wordItem) {
+            k++;
+            var row = "<tr><td class='word'>" + k + ") " + wordItem.word + "</td> * " + "<td class='word_kun'>" + wordItem.word_kun + "</td></tr>";
+            console.log("HERE IS MY WORD", wordItem);
+            $(pageId + " .words").append(row);
+        });
+        //$(pageId + " .kuns").html(cardside.kun);
         //console.log(i, "check" + card.kun);
 
-        $("#" + i + "s" + cardside.cardside + " .words").html(cardside.words);
        // console.log(i, "check" + card.words);
-        $("#" + i + "s" + cardside.cardside + " .level").html(card_info.lvl);
+        $(pageId + " .level").html(card_info.lvl);
 
-        $("#" + i + "s" + cardside.cardside + " .sideinfo").html((cardside.cardside + 1) + "/" + card_info.sides);
+        $(pageId + " .sideinfo").html((cardside.cardside + 1) + "/" + card_info.sides);
        // console.log(i, "check" + card.lvl);
-        /*$("#" + i + "s" + cardside.cardside + " #nextcard").click(function() {
+        /*$(pageId + " #nextcard").click(function() {
 
             DataPresenter.next();
         });

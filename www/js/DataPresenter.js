@@ -77,6 +77,7 @@
     };
 
     this.presentData = function(deckId) {
+
         $("#cards_place").empty();
         //$("div.card").remove();
         var id = -1;
@@ -123,6 +124,7 @@
 
     exports.slideUp = function() {
         var navItem = cardsNavigator.flipUp();
+
         cardsNavigator.markCard("flip");
         console.log(navItem.id, navItem.side);
         $.mobile.pageContainer.pagecontainer("change", $("#" + navItem.id + "s" + navItem.side) , { transition : "slideup", reload : "false"});

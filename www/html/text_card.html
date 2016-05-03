@@ -2,6 +2,7 @@
     <!--<div data-role="header">Kanji card!</div>-->
     <div data-role="main" class="ui-content">
         <div class="cardside_content">
+            <div class="long_text">text goes here</div>
             <div class="question">Here is the question</div>
             <label class="label-option option1">
                 <input type="radio" class="radio-option option1" name="option" value="wrong">
@@ -10,7 +11,7 @@
                 <input type="radio" class="radio-option option2" name="option" value="wrong">
             </label>
             <label class="label-option option3">
-            <input type="radio" class="radio-option option3" name="option" value="wrong">
+                <input type="radio" class="radio-option option3" name="option" value="wrong">
             </label>
             <label class="label-option option4">
                 <input type="radio" class="radio-option option4" name="option" value="wrong">
@@ -61,20 +62,15 @@
         //console.log(i, "check " + card.bigkanji);
         $(pageId + " .level").html(card_info.lvl);
         $(pageId + " .sideinfo").html((cardside.cardside + 1) + "/" + card_info.sides);
-       // console.log(i, "check" + card.lvl);
+        // console.log(i, "check" + card.lvl);
         /*$("#" + i + cardside.cardside + " #nextcard").click(function() {
 
-            DataPresenter.next();
-        });
-        //console.log(i, "check");
-        $("#" + i + cardside.cardside + " #prevcard").click(function() {
-            DataPresenter.prev();
-        });*/
+         DataPresenter.next();
+         });
+         //console.log(i, "check");
+         $("#" + i + cardside.cardside + " #prevcard").click(function() {
+         DataPresenter.prev();
+         });*/
 
     };
- </script>
-
-
-
-
-
+</script>

@@ -7,6 +7,7 @@
 
     exports.presentMenu = function() {
         console.log(TAG, "presentMenu");
+
         $("#decks_menu").empty();
         $("#custom_menu").empty();
         //window.config.site.db.info
@@ -61,13 +62,14 @@
                     deck.cards_list = row.value;
                     deck.type = "kanji_cards_deck";
                     AddDeckToMenu(row.key, deck);
-                    Promise.all(menuReadyPromises).then(function() {
-                        console.log("menuReadyPromises", menuReadyPromises);
-                        $.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
-                    });
+
                 });
 
             }
+            Promise.all(menuReadyPromises).then(function() {
+                console.log("menuReadyPromises", menuReadyPromises);
+                $.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
+            });
 
 
         });

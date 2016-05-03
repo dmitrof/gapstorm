@@ -33,7 +33,7 @@ var app = {
         });*/
         $("#starter" + " #prevcard").click(function() {
             $.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
-
+            window.screen.unlockOrientation();
         });
 
 

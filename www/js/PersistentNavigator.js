@@ -31,10 +31,10 @@
     exports.markCard = function(actionType) {
 
         var taskType = cardsList[fullStack[card_x]].task_type;
-        console.log("THIS CARD's Type : ", taskType);
+        //console.log("THIS CARD's Type : ", taskType);
         var taskObj = markRules[taskType];
         var modifier = taskObj[actionType];
-        console.log("MODIFIER FOR THIS CARD IS", modifier);
+        //console.log("MODIFIER FOR THIS CARD IS", modifier);
         if (stackAddition.indexOf(fullStack[card_x]) == -1) {
             console.log("added", fullStack[card_x]);
             var addition = {};
@@ -153,6 +153,17 @@
         console.log(card_x, fullStack[card_x]);
         //var card = {};
         card_id = fullStack[card_x];
+
+        var task_type = cardsList[fullStack[card_x]].task_type;
+        if (task_type == "kanji_card") {
+            window.screen.lockOrientation('landscape');
+        }
+        else if (task_type == "vocab_test"){
+            window.screen.lockOrientation('portrait');
+        }
+        else {
+            window.screen.unlockOrientation();
+        }
         $.mobile.pageContainer.pagecontainer("change", $("#" + card_id + "s" + card_y) , { transition : "slideup", reload : "false"});
         //return card;
     };
@@ -170,6 +181,17 @@
         var card = {};
         card.id = fullStack[card_x];
         card.side = card_y;
+        var task_type = cardsList[fullStack[card_x]].task_type;
+        if (task_type == "kanji_card") {
+            window.screen.lockOrientation('landscape');
+        }
+        else if (task_type == "vocab_test"){
+            window.screen.lockOrientation('portrait');
+        }
+        else {
+            window.screen.unlockOrientation();
+        }
+
         return card;
     };
 
@@ -188,6 +210,16 @@
         var card = {};
         card.id = fullStack[card_x];
         card.side = card_y;
+        var task_type = cardsList[fullStack[card_x]].task_type;
+        if (task_type == "kanji_card") {
+            window.screen.lockOrientation('landscape');
+        }
+        else if (task_type == "vocab_test"){
+            window.screen.lockOrientation('portrait');
+        }
+        else {
+            window.screen.unlockOrientation();
+        }
         return card;
     };
 

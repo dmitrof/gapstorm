@@ -34,6 +34,44 @@
     text-align : center;
 }
 
+.submit_answer{
+    position:relative;
+    margin-bottom:10vh;
+}
+
+.long_text {
+    position:relative;
+    margin-top:8vh;
+    margin-bottom:8vh;
+}
+
+.question {
+    position:relative;
+    margin-top:8vh;
+    margin-bottom:8vh;
+}
+
+.radio-option {
+    /*position:relative;
+    float:left;
+    margin-top:10vh;*/
+}
+
+.label-option {
+    /*position:relative;
+    float:right;
+    display:block;
+    clear:none;
+    background-color: #4b88b6;*/
+}
+
+.radio-option:focus {
+    background-color: #4b88b6;
+}
+
+
+
+
 .kanji {
     position:relative;
     text-align:center;
@@ -53,11 +91,11 @@
 
 .word {
     padding-left:1%;
-    width:40%;
+    width:25%;
 }
 .word_kun {
     padding-left:1%;
-    width:60%;
+    width:75%;
 }
 
 .kun {
@@ -89,7 +127,7 @@
 .words {
     position:relative;
     float:left;
-    font-size:30pt;
+    font-size:6vh;
     width:100%;
     height: 44vh;
     vertical-align : center;
@@ -128,8 +166,8 @@ td {
     margin-left : 2vw;
     margin-top : 3vh;
     margin-bottom : 3vh;
-    margin-right : 2vw;*/
-    border : 1px solid black;
+    margin-right : 2vw;
+    border : 1px solid black;*/
 }
 
 
@@ -145,5 +183,5 @@ td {
     font-size: 18pt;
     position: absolute;
     bottom: 2vh;
-    left: 97vw;
+    right: 1vw;
 }
