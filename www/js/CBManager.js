@@ -7,6 +7,7 @@
     var appDbName = "gapstorm";
     var TAG = "CBManager";
     this.user = "ttmitry@gmail.com";
+
     //module for working with localstorage
     exports.createDB = function() {
 
@@ -26,9 +27,50 @@
                 console.log("setupDb: " + order +" " + info.doc_count);
                 setupViews(db, function(err, views) {
                     setupConfig(url, db, views, info);
-                    triggerSync();
+                    //triggerSync();
+                    var userToken = {}; 
+                    userToken.login = "ttmitry"; 
+                    userToken.password = "password";
+                    user_uid = "token_" + userToken.login;
+                    userToken.doc_type = "user_token";
+                    var promise1 = new Promise(function(resolve, reject) {
+                        db.put(user_uid, userToken, function(err, ok) {
+                            if (err) {
+                                console.log(TAG, err);
+                                reject("cant put user");
+                            }
+                            else {
+                                console.log(TAG, ok);
+                                resolve("userisinplace");
+                            }
+                        });
+                    });
+
+                    promise1.then(function() {
+                        console.log("PROMISE!")
 
 
+                        window.config.site.views(["get_token"], function (err, view) {
+                                if (err) {
+                                    console.log(TAG, err)
+                                }
+                                else if (view) {
+                                    console.log("our user token", view.rows[0]);
+                                    var token = view.rows[0].key;
+                                    login = token.login;
+                                    password = token.password;
+                                    window.config.site.syncUrl = "http://" + login + ":" + password+ "@192.168.0.54:4984/gapstorm/";
+                                    triggerSync();
+                                }
+
+                            }
+                        );
+
+                    });
+
+                    var promise2 = new Promise(function(resolve, reject ) {
+
+                    });
                 });
 
             });
@@ -43,7 +85,7 @@
     function setupConfig(url, db, views, info) {
         window.config = {
             site : {
-                syncUrl : "http://" + username + ":" + password+ "@192.168.0.54:4984/gapstorm/",
+
                 db : db,
                 s : coax(url),
                 info : info,
@@ -69,6 +111,14 @@
 
                 db.put(design,  {
                     views : {
+                        get_token: {
+                            map: function (doc) {
+                                if (doc.doc_type && doc.doc_type == "user_token") {
+                                    emit(doc, null);
+                                }
+
+                            }.toString()
+                        },
                         get_kanji: {
                             map: function (doc) {
                                 if (doc.card_info.task_type && doc.card_info.task_type == "kanji_card") {

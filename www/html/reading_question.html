@@ -1,4 +1,4 @@
-<div id="-1" data-role="page" class="card test_card" show="false">
+<div id="-1" data-role="page" class="text_card" show="false">
     <!--<div data-role="header">Kanji card!</div>-->
     <div data-role="main" class="ui-content">
         <div class="cardside_content">
@@ -34,6 +34,9 @@
         //console.log(i, cardside.wrong_options[0]);
         var pageId = "#" + i + "s" + cardside.cardside;
         $("#-1").attr("id", i + "s" + cardside.cardside);
+        cardside.long_text.forEach(function(text_chunk) {
+            $(pageId + " .long_text").append(text_chunk);
+        });
         //alert("id changed");
         optionsList = cardside.wrong_options;
         optionsList.push(cardside.answer);

@@ -1,7 +1,10 @@
 
 console.log("awdawd","Hello, console!");
-var username = "ttmitry";
-var password = "password";
+//var username = "ttmitry";
+//var password = "password";
+var login = "";
+var password = "";
+
 
 var app = {
 
@@ -57,24 +60,10 @@ var app = {
 
 
 
-        /*$(".card").swipe( {
-            swipeRight:function(event, direction, distance, duration) {
-                DataPresenter.prev();
-            },
-            swipeLeft:function(event, direction, distance, duration) {
-                DataPresenter.next();
-            },
-            swipeUp:function(event, direction, distance, duration) {
-                DataPresenter.slideUp();
-            },
-            swipeDown:function(event, direction, distance, duration) {
-                DataPresenter.slideDown();
-            },
-            click:function(event, target) {
-            },
-            threshold:100,
-            allowPageScroll:"vertical"
-        });*/
+
+
+
+
     }
     // Update DOM on a Received Event
 

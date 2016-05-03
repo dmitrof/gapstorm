@@ -6,6 +6,7 @@ var featureTranslate = {
     verb : "Глаголы",
     adjective : "Прилагательные",
     bad : "Бракованные",
-    vocab_test : "Тест на лексику"
+    vocab_test : "Тест на лексику",
+    text_test : "Чтение"
 
 }

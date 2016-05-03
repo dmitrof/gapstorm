@@ -17,7 +17,7 @@
                 }
                 else if (view) {
                     view.rows.forEach(function (row) {
-                        console.log("deck", row.key);
+                        //console.log("deck", row.key);
                         AddDeckToMenu(row.id, row.key);
 
                     });
@@ -31,7 +31,7 @@
                 console.log("err ",err);
             }
             else if (view) {
-                console.log("success", view.rows);
+                //console.log("success", view.rows);
                 view.rows.forEach(function(row) {
                     var deck = {};
                     deck.description = "JLPT  " + row.key;
@@ -52,7 +52,7 @@
                 console.log("err ",err);
             }
             else if (view) {
-                console.log("success", view.rows);
+                //console.log("success", view.rows);
                 view.rows.forEach(function(row) {
                     var deck = {};
                     deck.description = "JLPT  " + row.key;
