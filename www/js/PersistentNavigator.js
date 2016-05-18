@@ -57,7 +57,7 @@
             //console.log("PUSHED TO CURRENT STACK", currentStack);
             window.config.site.db.get(cardStatId, function(err, cardGet) {
                 var cardPut = {};
-                cardPut.stud_id = login;
+                cardPut.stud_id = userInfo.username;
                 if (err) {
                     console.log(err);
                     cardPut.rep_count = 1;
@@ -98,7 +98,7 @@
                 if (err) {
                     console.log(err);
                     var cardPut = {};
-                    cardPut.stud_id = login;
+                    cardPut.stud_id = userInfo.username;
                     console.log(err);
                     cardPut.rep_count = 1;
                     cardPut.doc_type = "card_stat";

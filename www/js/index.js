@@ -27,7 +27,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 
-        //CBManager.createDB();
+        CBManager.startDB();
 
         //$.blockUI();
 

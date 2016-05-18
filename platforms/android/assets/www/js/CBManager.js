@@ -22,21 +22,50 @@
         userId = "user_" + username;
         tokenId = "token_" + username;
         password = _password;
-        createDB();
+        token.doc_type = "user_token";
+        //token.doc_channels = [userId];
+        token.userId = userId;
+        token.password = password;
+        window.config.site.db.get(tokenId, function(err, ok) {
+            if (err) {
+                window.config.site.db.put(tokenId, token, function(err, ok) {
+                    if (err) {
+                        console.log("token put error",err);
+
+                    } else if (ok) {
+                        console.log("token put successfully", ok);
+                    }
+                });
+            } else if (ok) {
+                console.log("token get success", ok);
+            }
+
+        });
+
+        startUserSession();
+    };
+
+    this.startUserSession = function() {
+        window.config.site.syncUrl = "http://" + userId + ":" + password + dbURL;
+        triggerSync();
     };
 
     exports.getUser = function() {
         var userInfo = {}; userInfo.username = username; userInfo.userId = userId; userInfo.tokenId = tokenId;
         return userInfo;
-    }
+    };
 
     //module for working with localstorage
+    exports.startDB = function() {
+        createDB();
+    };
+
     this.createDB = function() {
 
         window.cblite.getURL(function(err,url) {
             var db = coax([url, appDbName]);
 
-            db.del(function(err, ok) {
+            /*db.del(function(err, ok) {
                 if (err) {
                     console.log(TAG, err);
                 }
@@ -44,7 +73,7 @@
                     console.log(TAG, ok);
                 }
 
-            });
+            });*/
             setupDb(db, function(err, info){
                 console.log("setupDb: " + order +" " + info.doc_count);
                 setupViews(db, function(err, views) {
@@ -101,8 +130,7 @@
                         }
 
                     });*/
-                    window.config.site.syncUrl = "http://" + userId + ":" + password + dbURL;
-                    triggerSync();
+
 
 
                 });
