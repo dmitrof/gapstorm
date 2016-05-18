@@ -22,15 +22,34 @@
         userId = "user_" + username;
         tokenId = "token_" + username;
         password = _password;
-        createDB();
+        token.doc_type = "user_token";
+        token.doc_channels = [userId];
+        token.userId = userId;
+        token.password = password;
+        window.config.site.db.put(tokenId, token, function(err, ok) {
+            if (err) {
+                console.log("token put error",err);
+
+            } else if (ok) {
+                console.log("token put successfully", ok);
+            }
+        });
+        startUserSession();
+    };
+
+    exports.startUserSession = function() {
+        window.config.site.syncUrl = "http://" + userId + ":" + password + dbURL;
+        triggerSync();
     };
 
     exports.getUser = function() {
         var userInfo = {}; userInfo.username = username; userInfo.userId = userId; userInfo.tokenId = tokenId;
         return userInfo;
-    }
+    };
 
     //module for working with localstorage
+    exports.startDB = createDB;
+
     this.createDB = function() {
 
         window.cblite.getURL(function(err,url) {
@@ -101,8 +120,7 @@
                         }
 
                     });*/
-                    window.config.site.syncUrl = "http://" + userId + ":" + password + dbURL;
-                    triggerSync();
+
 
 
                 });
