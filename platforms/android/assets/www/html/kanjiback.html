@@ -1,0 +1,43 @@
+<div id="-1" data-role="page" class="card" show="false">
+    <div data-role="main" class="ui-content">
+        <div class="kanjitranslation"></div>
+        <div class="kanjiromaji"></div>
+        <div class="sideinfo"></div>
+        <br>
+        <!--<a id="prevcard"   class="ui-btn ui-corner-all ui-btn-inline">previous </a>
+        <a id="nextcard"   class="ui-btn ui-corner-all ui-btn-inline">next </a>-->
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    // prev();
+
+
+    var fill = function(i, cardside, card_info) {
+        //alert("fill the card");
+        $("#-1").attr("id", i + "s" + cardside.cardside);
+        //alert("id changed");
+        $("#" + i + "s" + cardside.cardside + " .kanjitranslation").html(cardside.kanjitrans);
+
+        $("#" + i + "s" + cardside.cardside + " .kanjitranslation").click(function() {
+            alert("you clicked " + i);
+        });
+
+        $("#" + i + "s" + cardside.cardside + " .kanjiromaji").html(cardside.romaji);
+
+        $("#" + i + "s" + cardside.cardside + " .sideinfo").html((cardside.cardside + 1) + "/" + card_info.sides);
+
+
+        /*$("#" + i + "s" + cardside.cardside + " #nextcard").click(function() {
+
+            DataPresenter.next();
+        });
+
+        $("#" + i + "s" + cardside.cardside + " #prevcard").click(function() {
+            DataPresenter.prev();
+        });*/
+
+
+    };
+</script>

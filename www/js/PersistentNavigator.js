@@ -49,7 +49,8 @@
         console.log("restart, stack addition: ", stackAddition);
         //now i add information about repeats to a database
         stackAddition.forEach(function(addition) {
-            var cardStatId = login + "stat" + addition.id;
+            userInfo = CBManager.getUser();
+            var cardStatId = "stat_" + userInfo.username + "_" + addition.id;
 
             var modifier = addition.modifier;
             currentStack.push(addition.id);
@@ -60,6 +61,8 @@
                 if (err) {
                     console.log(err);
                     cardPut.rep_count = 1;
+                    cardPut.doc_type = "card_stat";
+                    cardPut.doc_channels = [];
                 }
                 else if (cardGet) {
                     console.log(cardGet);
@@ -88,7 +91,8 @@
     function fillStack(cardId) {
         //var cardId = cardInd;
         //console.log("cardId", cardId);
-        var cardStatId = login + "stat" + cardId;
+        userInfo = CBManager.getUser();
+        var cardStatId = "stat_" + userInfo.username + "_" + cardId;
         promise = new Promise(function(resolve, reject) {
             window.config.site.db.get(cardStatId, function(err, cardGet) {
                 if (err) {
@@ -97,6 +101,8 @@
                     cardPut.stud_id = login;
                     console.log(err);
                     cardPut.rep_count = 1;
+                    cardPut.doc_type = "card_stat";
+                    cardPut.doc_channels = [];
                     currentStack.push(cardId);
                     cardsnumber++;
                     window.config.site.db.put(cardStatId, cardPut, function(err, ok) {

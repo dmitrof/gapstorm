@@ -2,8 +2,8 @@
 console.log("awdawd","Hello, console!");
 //var username = "ttmitry";
 //var password = "password";
-var login = "";
-var password = "";
+/*var login = "";
+var password = "";*/
 
 
 var app = {
@@ -27,15 +27,36 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 
-        CBManager.createDB();
+        //CBManager.createDB();
 
         //$.blockUI();
-        /*$("#starter" + " #nextcard").click(function() {
+
+
+        $("#starter" + " #nextcard").click(function() {
             MenuPresenter.presentMenu();
 
-        });*/
+        });
         $("#starter" + " #prevcard").click(function() {
             $.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
+            window.screen.unlockOrientation();
+        });
+
+        /*$("#starter" + " #auth_btn").click(function() {
+            //$.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
+            CBManager.changeUser("student_2", "1234qwer");
+            window.screen.unlockOrientation();
+        });*/
+
+        $("#auth_form").submit(function(event) {
+            //$.mobile.pageContainer.pagecontainer("change", $("#menu") , { transition : "slidedown", reload : "false"});
+
+            var $inputs = $('#auth_form :input');
+            var values = {};
+            $inputs.each(function() {
+                values[this.name] = $(this).val();
+            });
+
+            CBManager.changeUser(values['user'], values['pass']);
             window.screen.unlockOrientation();
         });
 
